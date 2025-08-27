@@ -1,4 +1,4 @@
-part of weather_app;
+part of '../../weather_app.dart';
 
 class Wind {
   final double speed;
@@ -8,8 +8,8 @@ class Wind {
   const Wind({required this.speed, required this.deg, this.gust});
 
   factory Wind.fromJson(Map<String, dynamic> json) => Wind(
-    speed: (json['speed'] as num).toDouble(),
-    deg: json['deg'],
-    gust: (json['gust'] as num?)?.toDouble(),
-  );
+        speed: (json['speed'] as num).toDouble(),
+        deg: json['deg'],
+        gust: (json['gust'] as num?)?.toDouble(),
+      );
 }

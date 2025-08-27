@@ -1,4 +1,4 @@
-part of weather_app;
+part of '../../weather_app.dart';
 
 class CurrentWeatherData {
   final PositionCoordinates coord;
@@ -41,10 +41,9 @@ class CurrentWeatherData {
         longitude: (json['coord']['lon'] as num).toDouble(),
         latitude: (json['coord']['lat'] as num).toDouble(),
       ),
-      weather:
-          (json['weather'] as List)
-              .map((e) => WeatherDataModel.fromJson(e))
-              .toList(),
+      weather: (json['weather'] as List)
+          .map((e) => WeatherDataModel.fromJson(e))
+          .toList(),
       base: json['base'],
       main: WeatherDataModel.fromJson(json['main']),
       visibility: json['visibility'],

@@ -1,4 +1,4 @@
-part of weather_app;
+part of '../../weather_app.dart';
 
 class SysDataModel {
   final int type;
@@ -16,10 +16,10 @@ class SysDataModel {
   });
 
   factory SysDataModel.fromJson(Map<String, dynamic> json) => SysDataModel(
-    type: json['type'] ?? 1,
-    id: json['id'],
-    country: json['country'],
-    sunrise: json['sunrise'],
-    sunset: json['sunset'],
-  );
+        type: json['type'] ?? 1,
+        id: json['id'],
+        country: json['country'],
+        sunrise: json['sunrise'],
+        sunset: json['sunset'],
+      );
 }

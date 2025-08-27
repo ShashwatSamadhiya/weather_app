@@ -1,4 +1,4 @@
-part of weather_app;
+part of '../../weather_app.dart';
 
 /// A model class representing geographical coordinates with latitude and longitude.
 class PositionCoordinates {
