@@ -1,4 +1,4 @@
-part of weather_forecasting;
+part of '../../weather_app.dart';
 
 class ServerException implements Exception {}
 

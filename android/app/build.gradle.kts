@@ -1,3 +1,5 @@
+import java.util.Base64
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -5,10 +7,31 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+
+val dartEnvironmentVariables: Map<String, String> =
+    if (project.hasProperty("dart-defines")) {
+        (project.property("dart-defines") as String)
+            .split(",")
+            .map { entry ->
+                val pair = String(Base64.getDecoder().decode(entry), Charsets.UTF_8).split("=")
+                pair.first() to pair.last()
+            }
+            .toMap()
+    } else {
+        emptyMap()
+    }
+
+
+// manifestPlaceholders key
+var googleMapsKey: String = "YourGoogleMapApiKey"
+if (dartEnvironmentVariables.containsKey("GOOGLE_MAPS_KEY")) {
+    googleMapsKey = dartEnvironmentVariables["GOOGLE_MAPS_KEY"]!!
+}
+
 android {
     namespace = "com.example.weather_app"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -28,6 +51,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        manifestPlaceholders["googleMapsKey"] = googleMapsKey
     }
 
     buildTypes {

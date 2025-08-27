@@ -1,0 +1,24 @@
+{
+  "configurations": [
+        {
+            "name": "Flutter (weather app)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "flutterMode": "debug" ,
+            "args": [
+                "--dart-define",
+                "GOOGLE_MAPS_KEY=AIzaSyBu519iM5g2ve-FkGYhjSOADiu5V_PAfbo",
+                "--dart-define",
+                "WEATHER_API_ACCESS_KEY=HELLO_THERE"
+              ],
+            "codeLens": {
+                "for": [
+                    "run-file",
+                    "run-test-file"
+                ],
+            "title": "Run weather app"
+          }
+        },
+    ],
+}
