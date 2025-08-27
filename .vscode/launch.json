@@ -8,7 +8,7 @@
             "flutterMode": "debug" ,
             "args": [
                 "--dart-define",
-                "GOOGLE_MAPS_KEY=AIzaSyBu519iM5g2ve-FkGYhjSOADiu5V_PAfbo",
+                "GOOGLE_MAPS_KEY=key",
                 "--dart-define",
                 "WEATHER_API_ACCESS_KEY=HELLO_THERE"
               ],
