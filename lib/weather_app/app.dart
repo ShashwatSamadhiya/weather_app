@@ -1,0 +1,24 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/weather_app/weather_app.dart';
+
+class WeatherApp extends StatelessWidget {
+  const WeatherApp({super.key});
+
+  Map<String, Widget Function(BuildContext)> get routes => {
+        WeatherHomePage.routeName: (context) => const WeatherHomePage(),
+      };
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => WeatherAppBloc(
+        weatherRepository: WeatherRepositoryDataSourceImpl(),
+        locationService: LocationServiceImpl(),
+      ),
+      child: WeatherAppView(
+        routes: routes,
+      ),
+    );
+  }
+}

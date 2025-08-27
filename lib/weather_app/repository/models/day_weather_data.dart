@@ -2,7 +2,7 @@ part of '../../weather_app.dart';
 
 class DayWeatherData {
   final String day;
-  final String image;
+  final IconData image;
   final double max;
   final double min;
   final String name;

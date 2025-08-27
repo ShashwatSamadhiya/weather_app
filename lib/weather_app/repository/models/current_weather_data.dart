@@ -6,12 +6,12 @@ class CurrentWeatherData {
   final int timezone;
   final int cod;
   final String day;
-  final String image;
+  final IconData image;
   final PositionCoordinates coord;
-  final List<WeatherDataModel> weather;
+  final List<WeatherData> weather;
   final String base;
   final WeatherDataModel main;
-  final int? visibility;
+  final int visibility;
   final Wind wind;
   final int clouds;
   final int dt;
@@ -27,7 +27,7 @@ class CurrentWeatherData {
     required this.image,
     required this.base,
     required this.main,
-    this.visibility,
+    required this.visibility,
     required this.wind,
     required this.clouds,
     required this.dt,
@@ -51,14 +51,13 @@ class CurrentWeatherData {
       day: DateFormat("EEEE dd MMMM").format(DateTime.now()),
       image: WeatherIcons.getWeatherIcon(
         json["weather"][0]["main"].toString(),
-        true,
       ),
       coord: PositionCoordinates(
         longitude: (json['coord']['lon'] as num).toDouble(),
         latitude: (json['coord']['lat'] as num).toDouble(),
       ),
       weather: (json['weather'] as List)
-          .map((e) => WeatherDataModel.fromJson(e))
+          .map((e) => WeatherData.fromJson(e))
           .toList(),
     );
   }

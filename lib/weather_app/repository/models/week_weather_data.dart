@@ -15,7 +15,7 @@ class WeeklyWeatherData {
           )
           .substring(0, 3);
       String name = getWeatherNameFromCode(dailydData['weather_code'][i]);
-      String image = WeatherIcons.getWeatherIcon(name, false);
+      IconData image = WeatherIcons.getWeatherIcon(name);
       data.add(
         DayWeatherData(
           name: name,

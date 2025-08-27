@@ -4,4 +4,4 @@ class ServerException implements Exception {}
 
 class NetworkException implements Exception {}
 
-class LocationException implements Exception {}
+class LocationPermissionException implements Exception {}

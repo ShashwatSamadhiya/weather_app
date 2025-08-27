@@ -1,8 +1,12 @@
 part of '../weather_app.dart';
 
 abstract class WeatherRemoteDataSource {
-  Future<CurrentWeatherData> getCurrentWeatherData(PositionCoordinates latLong);
-  Future<WeeklyWeatherData> getWeeklyWeather(PositionCoordinates latLong);
+  Future<CurrentWeatherData> getCurrentWeatherData(
+    PositionCoordinates position,
+  );
+  Future<WeeklyWeatherData> getWeeklyWeather(
+    PositionCoordinates position,
+  );
 }
 
 class WeatherRepositoryDataSourceImpl implements WeatherRemoteDataSource {
@@ -12,7 +16,7 @@ class WeatherRepositoryDataSourceImpl implements WeatherRemoteDataSource {
     _httpClient = httpClient ?? http.Client();
   }
 
-  final _apiAccessKey = String.fromEnvironment('WEATHER_API_ACCESS_KEY');
+  static const _apiAccessKey = String.fromEnvironment('WEATHER_API_ACCESS_KEY');
 
   /// Base API path for the currency converter service.
   final String _baseApiPath = 'https://api.openweathermap.org/data/2.5';
