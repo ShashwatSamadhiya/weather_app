@@ -16,3 +16,15 @@ class CurrentLocationEvent extends WeatherEvent {
 class CurrentLocationWeatherEvent extends WeatherEvent {
   const CurrentLocationWeatherEvent();
 }
+
+class WeeklyForecastWeatherEvent extends WeatherEvent {
+  const WeeklyForecastWeatherEvent();
+}
+
+class CityWeatherEvent extends WeatherEvent {
+  final String cityName;
+  const CityWeatherEvent({required this.cityName});
+
+  @override
+  List<Object> get props => [cityName];
+}

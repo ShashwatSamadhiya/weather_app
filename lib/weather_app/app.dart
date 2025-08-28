@@ -7,6 +7,7 @@ class WeatherApp extends StatelessWidget {
 
   Map<String, Widget Function(BuildContext)> get routes => {
         WeatherHomePage.routeName: (context) => const WeatherHomePage(),
+        SearchCityWeather.routeName: (context) => const SearchCityWeather(),
       };
 
   @override

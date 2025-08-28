@@ -1,4 +1,4 @@
-part of '../../weather_app.dart';
+part of '../../../weather_app.dart';
 
 class WeatherView extends StatefulWidget {
   const WeatherView({super.key});

@@ -1,6 +1,6 @@
 part of '../weather_app.dart';
 
-enum WeatherStateType { initial, currentWeather, forecast, location }
+enum WeatherStateType { initial, currentWeather, city, forecast, location }
 
 /// Base state for the weather states.
 abstract class WeatherState extends Equatable {
@@ -27,6 +27,31 @@ class WeatherEmptyState extends WeatherState {
 class CurrentWeatherDataLoadedState extends WeatherState {
   final CurrentWeatherData weatherData;
   const CurrentWeatherDataLoadedState({
+    required super.type,
+    required this.weatherData,
+  });
+
+  @override
+  List<Object> get props => [type, weatherData];
+}
+
+class CityWeatherLoadedState extends WeatherState {
+  final String cityName;
+  final CurrentWeatherData weatherData;
+  const CityWeatherLoadedState({
+    required super.type,
+    required this.cityName,
+    required this.weatherData,
+  });
+
+  @override
+  List<Object> get props => [cityName, type, weatherData];
+}
+
+/// State when the weekly forecast data is loaded
+class WeeklyForecastLoadedState extends WeatherState {
+  final WeeklyWeatherData weatherData;
+  const WeeklyForecastLoadedState({
     required super.type,
     required this.weatherData,
   });

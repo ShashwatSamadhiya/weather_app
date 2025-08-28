@@ -11,29 +11,20 @@ class WeatherHomePage extends StatefulWidget {
 class _WeatherHomePageState extends State<WeatherHomePage> {
   final ValueNotifier<int> _selectedTabIndex = ValueNotifier<int>(0);
 
+  final _screens = [
+    const WeatherView(),
+    const ForecastView(),
+    const ForecastView(),
+  ];
+
   Widget seletedTabWidget() {
     return ValueListenableBuilder<int>(
       valueListenable: _selectedTabIndex,
       builder: (context, value, child) {
-        switch (value) {
-          case 0:
-            return WeatherView();
-          case 1:
-            return WeatherView();
-          case 2:
-            return Center(
-              child: Text(
-                "Map Page",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Theme.of(context).hintColor,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            );
-          default:
-            return WeatherView();
-        }
+        return IndexedStack(
+          index: _selectedTabIndex.value,
+          children: _screens,
+        );
       },
     );
   }
@@ -81,12 +72,16 @@ class _WeatherHomePageState extends State<WeatherHomePage> {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text("Weather App"),
+        title: const Text("Weather Details"),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {},
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              WeatherAppNavigation.instance.pushNamed(
+                SearchCityWeather.routeName,
+              );
+            },
           )
         ],
       ),

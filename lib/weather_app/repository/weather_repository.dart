@@ -4,6 +4,9 @@ abstract class WeatherRemoteDataSource {
   Future<CurrentWeatherData> getCurrentWeatherData(
     PositionCoordinates position,
   );
+  Future<CurrentWeatherData> getCityWeatherData(
+    String cityName,
+  );
   Future<WeeklyWeatherData> getWeeklyWeather(
     PositionCoordinates position,
   );
@@ -40,6 +43,19 @@ class WeatherRepositoryDataSourceImpl implements WeatherRemoteDataSource {
       return CurrentWeatherData.fromJson(
         json.decode(response.body),
       );
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<CurrentWeatherData> getCityWeatherData(String cityName) async {
+    var response = await _httpClient.get(Uri.parse(
+      '$_baseApiPath/weather?q=$cityName&units=metric&appid=$_apiAccessKey',
+    ));
+
+    if (response.statusCode == 200) {
+      return CurrentWeatherData.fromJson(json.decode(response.body));
     } else {
       throw ServerException();
     }

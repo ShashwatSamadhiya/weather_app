@@ -32,9 +32,7 @@ class WeeklyWeatherData {
   static String getWeatherNameFromCode(int code) {
     if (code == 0) {
       return "Clear";
-    } else if (code >= 1 && code <= 3) {
-      return "Clouds";
-    } else if (code >= 45 && code <= 48) {
+    } else if ((code >= 1 && code <= 3) || (code >= 45 && code <= 48)) {
       return "Clouds";
     } else if (code >= 51 && code <= 57) {
       return "Drizzle";
