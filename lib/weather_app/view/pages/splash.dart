@@ -48,7 +48,7 @@ class _SplashPageState extends State<SplashPage> {
         if (state.type == WeatherStateType.location &&
             state is WeatherErrorState) {
           return ErrorWidget(
-            errorMessage: state.message,
+            errorMessage: state.error.errorMessage,
             onRetry: checkLocationPermission,
           );
         }

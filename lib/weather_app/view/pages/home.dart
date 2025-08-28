@@ -14,7 +14,7 @@ class _WeatherHomePageState extends State<WeatherHomePage> {
   final _screens = [
     const WeatherView(),
     const ForecastView(),
-    const ForecastView(),
+    const WeatherMapScreen(),
   ];
 
   Widget seletedTabWidget() {

@@ -1,6 +1,13 @@
 part of weather_app;
 
-enum WeatherStateType { initial, currentWeather, city, forecast, location }
+enum WeatherStateType {
+  initial,
+  currentWeather,
+  city,
+  forecast,
+  location,
+  markerInfo,
+}
 
 /// Base state for the weather states.
 abstract class WeatherState extends Equatable {
@@ -48,6 +55,19 @@ class CityWeatherLoadedState extends WeatherState {
   List<Object> get props => [cityName, type, weatherData];
 }
 
+class MarkerInfoDataLoadedState extends WeatherState {
+  final PositionCoordinates coordinates;
+  final CurrentWeatherData weatherData;
+  const MarkerInfoDataLoadedState({
+    required super.type,
+    required this.coordinates,
+    required this.weatherData,
+  });
+
+  @override
+  List<Object> get props => [type, coordinates, weatherData];
+}
+
 /// State when the weekly forecast data is loaded
 class WeeklyForecastLoadedState extends WeatherState {
   final WeeklyWeatherData weatherData;
@@ -62,15 +82,15 @@ class WeeklyForecastLoadedState extends WeatherState {
 
 /// State when the error occurs while fetching weather data
 class WeatherErrorState extends WeatherState {
-  final String message;
+  final WeatherAppException error;
 
   const WeatherErrorState({
     required super.type,
-    required this.message,
+    required this.error,
   });
 
   @override
-  List<Object> get props => [type, message];
+  List<Object> get props => [type, error];
 }
 
 /// state for location permission and coordinates

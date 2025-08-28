@@ -12,6 +12,7 @@ class WeatherAppBloc extends Bloc<WeatherEvent, WeatherState> {
     on<CurrentLocationWeatherEvent>(_onCurrentLocationWeatherEvent);
     on<WeeklyForecastWeatherEvent>(_onWeeklyForecastEvent);
     on<CityWeatherEvent>(_onCityWeatherEvent);
+    on<MarkerInfoWeatherEvent>(_onMarkerInfoEvent);
   }
 
   Future<void> _onCurrentLocationEvent(
@@ -28,8 +29,26 @@ class WeatherAppBloc extends Bloc<WeatherEvent, WeatherState> {
     } catch (e) {
       emit(WeatherErrorState(
         type: WeatherStateType.location,
-        message: e.toString(),
+        error: e is WeatherAppException
+            ? e
+            : WeatherAppException(
+                errorMessage: 'Failed to get location: ${e.toString()}',
+              ),
       ));
+    }
+  }
+
+  WeatherAppException getWeatherAppExceptionFromError(
+    Object error, {
+    String? defaultMessage,
+  }) {
+    if (error is WeatherAppException) {
+      return error;
+    } else {
+      return WeatherAppException(
+        errorMessage: defaultMessage ??
+            'An unexpected error occurred: ${error.toString()}',
+      );
     }
   }
 
@@ -50,7 +69,10 @@ class WeatherAppBloc extends Bloc<WeatherEvent, WeatherState> {
     } catch (error) {
       emit(WeatherErrorState(
         type: WeatherStateType.currentWeather,
-        message: error.toString(),
+        error: getWeatherAppExceptionFromError(
+          error,
+          defaultMessage: 'Failed to get weather data: ${error.toString()}',
+        ),
       ));
     }
   }
@@ -73,7 +95,11 @@ class WeatherAppBloc extends Bloc<WeatherEvent, WeatherState> {
     } catch (error) {
       emit(WeatherErrorState(
         type: WeatherStateType.city,
-        message: error.toString(),
+        error: getWeatherAppExceptionFromError(
+          error,
+          defaultMessage:
+              'Failed to get ${event.cityName} weather data: ${error.toString()}',
+        ),
       ));
     }
   }
@@ -94,7 +120,36 @@ class WeatherAppBloc extends Bloc<WeatherEvent, WeatherState> {
     } catch (error) {
       emit(WeatherErrorState(
         type: WeatherStateType.forecast,
-        message: error.toString(),
+        error: getWeatherAppExceptionFromError(
+          error,
+          defaultMessage:
+              'Failed to get weekly forecast data: ${error.toString()}',
+        ),
+      ));
+    }
+  }
+
+  Future<void> _onMarkerInfoEvent(
+    MarkerInfoWeatherEvent event,
+    Emitter<WeatherState> emit,
+  ) async {
+    try {
+      emit(const WeatherLoadingState(type: WeatherStateType.markerInfo));
+      final weatherData =
+          await weatherRepository.getCurrentWeatherData(event.coordinates);
+      emit(MarkerInfoDataLoadedState(
+        type: WeatherStateType.markerInfo,
+        weatherData: weatherData,
+        coordinates: event.coordinates,
+      ));
+    } catch (error) {
+      emit(WeatherErrorState(
+        type: WeatherStateType.markerInfo,
+        error: getWeatherAppExceptionFromError(
+          error,
+          defaultMessage:
+              'Failed to get marker info weather data: ${error.toString()}',
+        ),
       ));
     }
   }

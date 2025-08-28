@@ -33,7 +33,7 @@ class _CityWeatherState extends State<CityWeather> {
     }, builder: (context, state) {
       if (state is WeatherErrorState) {
         return ErrorWidget(
-          errorMessage: state.message,
+          errorMessage: state.error.errorMessage,
           onRetry: getWheatherData,
         );
       } else if (state is CityWeatherLoadedState) {
