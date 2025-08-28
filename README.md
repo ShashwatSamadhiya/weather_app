@@ -83,7 +83,8 @@ This app allows users to:
 
 ### 🔐 Permission Check
 
-![Location Permission Check](screen_shots/permission_check.png)
+![WhatsApp Image 2025-08-28 at 23 00 19](https://github.com/user-attachments/assets/203cd587-4222-4918-ad18-e305028768f1)
+
 
 ### 🏠 Home Screen
 
@@ -93,9 +94,10 @@ This app allows users to:
 
 ### 🗺️ Map Screen
 
-![Map Screen 1](screen_shots/map_1.png)
-![Map Screen 2](screen_shots/map_2.png)
-![Marker Info Window](screen_shots/marker_window.png)
+![WhatsApp Image 2025-08-28 at 22 52 17 (2)](https://github.com/user-attachments/assets/dea27bf8-d69e-4e8b-a168-a2121af59517)
+![WhatsApp Image 2025-08-28 at 22 52 18](https://github.com/user-attachments/assets/907f1f34-50ea-4dfc-9a8f-2c4c1cc7e91a)
+![WhatsApp Image 2025-08-28 at 22 52 18 (1)](https://github.com/user-attachments/assets/b29a80ba-d40e-4a51-8b8a-a28bf4ce82ed)
+
 
 ### 🔍 Search Screen
 
