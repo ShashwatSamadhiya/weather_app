@@ -114,8 +114,8 @@ This app allows users to:
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/weatherapp.git
-cd weatherapp
+[git clone https://github.com/yourusername/weatherapp.git](https://github.com/ShashwatSamadhiya/weather_app.git)
+cd weather_app
 ```
 
 2. **Install dependencies**
