@@ -1,7 +1,6 @@
 library weather_app;
 
 import 'dart:async';
-import 'dart:ui' as ui;
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -33,10 +32,14 @@ part 'models/day_weather_data.dart';
 part 'models/week_weather_data.dart';
 part 'models/weather_data_by_hour.dart';
 part 'models/weather.dart';
+part 'models/map_layer_data.dart';
+part 'models/weather_remote_source.dart';
 
 part 'view/app.dart';
+
 part 'view/pages/splash.dart';
 part 'view/pages/home.dart';
+part 'view/pages/search.dart';
 
 part 'view/widgets/error.dart';
 part 'view/widgets/loading.dart';
@@ -48,7 +51,7 @@ part 'view/widgets/forecast/forecast_tile.dart';
 part 'view/widgets/city/city_weather.dart';
 
 part 'view/map_view/map_view.dart';
-
-part 'view/pages/search.dart';
 part 'view/map_view/marker_weather_info.dart';
 part 'view/map_view/marker_info.dart';
+part 'view/map_view/map_tile_provider.dart';
+part 'view/map_view/fab_button_data.dart';

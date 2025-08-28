@@ -12,6 +12,8 @@ class _WeatherMapScreenState extends State<WeatherMapScreen> {
   final ValueNotifier<LatLng?> _selectedLocation = ValueNotifier(null);
   late CameraPosition initialCameraPosition;
   final Completer<GoogleMapController> _mapController = Completer();
+  final ValueNotifier<FabButtonType> _selectedMapLayerType =
+      ValueNotifier(FabButtonType.temperature);
 
   @override
   void initState() {
@@ -82,17 +84,72 @@ class _WeatherMapScreenState extends State<WeatherMapScreen> {
     );
   }
 
-  Widget _googleMapWidget() {
-    return ValueListenableBuilder(
-      valueListenable: _selectedLocation,
-      builder: (context, LatLng? value, child) {
-        return GoogleMap(
-          onMapCreated: (controller) => _mapController.complete(controller),
-          initialCameraPosition: CameraPosition(target: _userLocation, zoom: 6),
-          markers: _getMapMarkers(),
-          onTap: _onTap,
-        );
+  Set<TileOverlay> getLayerTile() {
+    if (_selectedMapLayerType.value == FabButtonType.temperature) {
+      return {
+        TileOverlay(
+          tileOverlayId: const TileOverlayId('tempLayer'),
+          tileProvider: WeatherAppTileProvider(
+            mapType: 'temp_new',
+          ),
+          zIndex: 1,
+          // transparency: 0.5,
+        ),
+      };
+    } else if (_selectedMapLayerType.value == FabButtonType.precipitation) {
+      return {
+        TileOverlay(
+          tileOverlayId: const TileOverlayId('precipitationLayer'),
+          tileProvider: WeatherAppTileProvider(
+            mapType: 'precipitation_new',
+          ),
+          zIndex: 1,
+        ),
+      };
+    }
+    return {};
+  }
+
+  Widget _floatingActionButton() {
+    return FloatingActionButton(
+      onPressed: () {
+        _selectedMapLayerType.value =
+            _selectedMapLayerType.value == FabButtonType.temperature
+                ? FabButtonType.precipitation
+                : FabButtonType.temperature;
+        setState(() {});
       },
+      isExtended: true,
+      child: ValueListenableBuilder(
+        valueListenable: _selectedMapLayerType,
+        builder: (ctx, value, child) {
+          return Icon(
+            _selectedMapLayerType.value == FabButtonType.temperature
+                ? Icons.local_fire_department
+                : Icons.cloud,
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _googleMapWidget() {
+    return Scaffold(
+      body: ValueListenableBuilder(
+        valueListenable: _selectedLocation,
+        builder: (context, LatLng? value, child) {
+          return GoogleMap(
+            onMapCreated: (controller) => _mapController.complete(controller),
+            initialCameraPosition:
+                CameraPosition(target: _userLocation, zoom: 6),
+            markers: _getMapMarkers(),
+            onTap: _onTap,
+            tileOverlays: getLayerTile(),
+          );
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: _floatingActionButton(),
     );
   }
 
