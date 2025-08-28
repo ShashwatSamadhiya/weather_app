@@ -31,7 +31,10 @@ class _WeatherViewState extends State<WeatherView> {
           onRetry: getWheatherData,
         );
       } else if (state is CurrentWeatherDataLoadedState) {
-        return CurrenWeatherUi(weatherData: state.weatherData);
+        return RefreshIndicator(
+          onRefresh: () async => getWheatherData(),
+          child: CurrenWeatherUi(weatherData: state.weatherData),
+        );
       }
       return WeatherLoadingScreen(
         loadingMessage: 'fetching weather data...',

@@ -161,6 +161,7 @@ class CurrenWeatherUi extends StatelessWidget {
         elevation: 0,
       ),
       body: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.all(16),
         child: dataWidget(context),
       ),

@@ -45,7 +45,10 @@ class _ForecastViewState extends State<ForecastView> {
           onRetry: getWheatherData,
         );
       } else if (state is WeeklyForecastLoadedState) {
-        return forecastList(state.weatherData);
+        return RefreshIndicator(
+          onRefresh: () async => getWheatherData(),
+          child: forecastList(state.weatherData),
+        );
       }
       return WeatherLoadingScreen(
         loadingMessage: 'fetching forecast data...',
