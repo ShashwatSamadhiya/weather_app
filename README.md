@@ -79,6 +79,14 @@ This app allows users to:
 
 ---
 
+## 🎥 Demo Video
+
+https://github.com/user-attachments/assets/231f2cc2-b177-44c8-af99-1a8a274d077b
+
+---
+
+---
+
 ## Screenshots
 
 ### 🔐 Permission Check
@@ -108,13 +116,7 @@ This app allows users to:
 ![WhatsApp Image 2025-08-28 at 22 52 17 (1)](https://github.com/user-attachments/assets/743bf5d9-03c4-49d1-b165-269d1999eecf)
 
 
----
 
-## 🎥 Demo Video
-
-https://github.com/user-attachments/assets/231f2cc2-b177-44c8-af99-1a8a274d077b
-
----
 
 ## Setup Instructions
 
