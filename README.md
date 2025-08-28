@@ -1,4 +1,4 @@
-# Weather Forecasting App
+# Weather App
 
 A Flutter application providing **real-time weather data** and a **5-day forecast**, along with interactive maps using Google Maps and OpenWeather API. The app features a clean, modern UI and robust architecture using **Bloc** for state management.
 
@@ -129,6 +129,11 @@ flutter pub get
 
 * Put your **Weather API key** access in `launch.json`
 * Add your **Google Maps API key** in `launch.json` or put directly in `AndroidManifest.xml` .
+* Now you can run the app by clicking `Run weather app`
+* Now you can skip the step 3 and 4
+
+<img width="417" height="89" alt="Screenshot 2025-08-28 222449" src="https://github.com/user-attachments/assets/0f163201-e58a-4fdb-9afa-0708dafd34e3" />
+<img width="674" height="185" alt="Screenshot 2025-08-28 222240" src="https://github.com/user-attachments/assets/47b5571f-76a4-41f8-bd60-ab728860476f" />
 
 3. **Configure API Keys**
 
