@@ -88,22 +88,18 @@ This app allows users to:
 
 ### 🏠 Home Screen
 
-![Home Loading](screen_shots/home_loading.png)
-![Home Screen 1](screen_shots/home_1.png)
-![Home Screen 2](screen_shots/home_2.png)
+![WhatsApp Image 2025-08-28 at 22 52 18 (1)](https://github.com/user-attachments/assets/b29a80ba-d40e-4a51-8b8a-a28bf4ce82ed)
 
 ### 🗺️ Map Screen
 
-![WhatsApp Image 2025-08-28 at 22 52 17 (2)](https://github.com/user-attachments/assets/dea27bf8-d69e-4e8b-a168-a2121af59517)
-![WhatsApp Image 2025-08-28 at 22 52 18](https://github.com/user-attachments/assets/907f1f34-50ea-4dfc-9a8f-2c4c1cc7e91a)
-![WhatsApp Image 2025-08-28 at 22 52 18 (1)](https://github.com/user-attachments/assets/b29a80ba-d40e-4a51-8b8a-a28bf4ce82ed)
+
 
 
 ### 🔍 Search Screen
 
-![Search Screen 1](screen_shots/search_1.png)
-![Search Suggestion Tap](screen_shots/suggestion_tap_search.png)
-![Manual Search Input](screen_shots/manual_type_search.png)
+
+![WhatsApp Image 2025-08-28 at 22 52 17 (2)](https://github.com/user-attachments/assets/dea27bf8-d69e-4e8b-a168-a2121af59517)
+![WhatsApp Image 2025-08-28 at 22 52 18](https://github.com/user-attachments/assets/907f1f34-50ea-4dfc-9a8f-2c4c1cc7e91a)
 
 ---
 
