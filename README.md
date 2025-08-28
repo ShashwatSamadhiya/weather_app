@@ -12,6 +12,7 @@ This app allows users to:
 * View a **5-day forecast** with intuitive and visually appealing UI.
 * Explore weather data on a **Google Map** with temperature and precipitation overlays.
 * Search for any city and get weather updates instantly.
+* Pull down to refresh the data
 * Experience smooth navigation and **robust error handling** for network, API, or input errors.
 
 ---
@@ -62,6 +63,7 @@ This app allows users to:
   * `lib/` – Core logic, features, and UI
   * `test/` – Unit and widget tests
 * API keys managed securely via **`dart-define`**; not committed to repo.
+* Put **Google Maps API key** in `AndroidManifest.xml` through `build.gradle.kts` so you can pass **Google Maps API key** using **`dart-define`**
 
 ---
 
@@ -123,6 +125,10 @@ cd weather_app
 ```bash
 flutter pub get
 ```
+## Setup Instructions using launch.json
+
+* Put your **Weather API key** access in `launch.json`
+* Add your **Google Maps API key** in `launch.json` or put directly in `AndroidManifest.xml` .
 
 3. **Configure API Keys**
 
