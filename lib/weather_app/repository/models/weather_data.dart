@@ -1,4 +1,4 @@
-part of '../../weather_app.dart';
+part of weather_app;
 
 /// A model class representing the main weather data.
 class WeatherDataModel {

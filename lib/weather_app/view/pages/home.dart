@@ -1,4 +1,4 @@
-part of '../../weather_app.dart';
+part of weather_app;
 
 class WeatherHomePage extends StatefulWidget {
   static const String routeName = '/weather_home';

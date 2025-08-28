@@ -1,4 +1,4 @@
-part of '../weather_app.dart';
+part of weather_app;
 
 abstract class WeatherRemoteDataSource {
   Future<CurrentWeatherData> getCurrentWeatherData(

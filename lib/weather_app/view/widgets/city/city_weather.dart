@@ -1,4 +1,4 @@
-part of '../../../weather_app.dart';
+part of weather_app;
 
 class CityWeather extends StatefulWidget {
   final String cityName;

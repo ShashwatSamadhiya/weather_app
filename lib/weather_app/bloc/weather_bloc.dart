@@ -1,4 +1,4 @@
-part of '../weather_app.dart';
+part of weather_app;
 
 class WeatherAppBloc extends Bloc<WeatherEvent, WeatherState> {
   final WeatherRemoteDataSource weatherRepository;

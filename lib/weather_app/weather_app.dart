@@ -1,4 +1,4 @@
-library;
+library weather_app;
 
 import 'dart:async';
 import 'dart:convert';

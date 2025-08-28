@@ -1,4 +1,4 @@
-part of '../weather_app.dart';
+part of weather_app;
 
 enum WeatherStateType { initial, currentWeather, city, forecast, location }
 

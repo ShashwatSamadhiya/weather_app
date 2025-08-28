@@ -1,4 +1,4 @@
-part of '../../../weather_app.dart';
+part of weather_app;
 
 class InfoCard extends StatelessWidget {
   final IconData icon;

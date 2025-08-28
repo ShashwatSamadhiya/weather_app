@@ -1,4 +1,4 @@
-part of '../weather_app.dart';
+part of weather_app;
 
 class WeatherAppView extends StatefulWidget {
   final Map<String, Widget Function(BuildContext)> routes;

@@ -1,4 +1,4 @@
-part of '../../weather_app.dart';
+part of weather_app;
 
 class ErrorWidget extends StatelessWidget {
   final String errorMessage;

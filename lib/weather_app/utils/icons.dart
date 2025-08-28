@@ -1,20 +1,20 @@
-part of '../weather_app.dart';
+part of weather_app;
 
 class WeatherIcons {
   static IconData getWeatherIcon(String main) {
     switch (main.toLowerCase()) {
       case "thunderstorm":
-        return Icons.flash_on; // ⚡
+        return Icons.flash_on;
       case "drizzle":
-        return Icons.grain; // 🌧️ drizzle drops
+        return Icons.grain;
       case "rain":
-        return Icons.umbrella; // ☔
+        return Icons.umbrella;
       case "snow":
-        return Icons.ac_unit; // ❄️
+        return Icons.ac_unit;
       case "clear":
-        return Icons.wb_sunny; // ☀️
+        return Icons.wb_sunny;
       case "clouds":
-        return Icons.cloud; // ☁️
+        return Icons.cloud;
       default:
         return Icons.help_outline; // fallback
     }

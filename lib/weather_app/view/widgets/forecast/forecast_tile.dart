@@ -1,4 +1,4 @@
-part of '../../../weather_app.dart';
+part of weather_app;
 
 class ForecastTile extends StatelessWidget {
   final DayWeatherData dayWeatherData;

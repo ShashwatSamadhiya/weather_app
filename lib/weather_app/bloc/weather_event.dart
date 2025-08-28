@@ -1,4 +1,4 @@
-part of '../weather_app.dart';
+part of weather_app;
 
 /// Base class for all weather events.
 abstract class WeatherEvent extends Equatable {
