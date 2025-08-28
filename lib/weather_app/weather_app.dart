@@ -9,11 +9,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 part 'core/theme/theme.dart';
 part 'core/error/errors.dart';
 part 'core/navigation.dart';
+part 'core/network.dart';
 
 part 'bloc/weather_bloc.dart';
 part 'bloc/weather_event.dart';

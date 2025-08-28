@@ -2,8 +2,12 @@ part of weather_app;
 
 class WeatherRepositoryDataSourceImpl implements WeatherRemoteDataSource {
   late http.Client _httpClient;
+  late NetworkInfo networkInfo;
 
-  WeatherRepositoryDataSourceImpl({http.Client? httpClient}) {
+  WeatherRepositoryDataSourceImpl({
+    http.Client? httpClient,
+    required this.networkInfo,
+  }) {
     _httpClient = httpClient ?? http.Client();
   }
 
@@ -17,10 +21,17 @@ class WeatherRepositoryDataSourceImpl implements WeatherRemoteDataSource {
 
   final String _mapLayerBaseApiPath = 'https://tile.openweathermap.org/map';
 
+  Future<void> checkInternetConnection() async {
+    if (!await networkInfo.isConnected) {
+      throw NetworkException();
+    }
+  }
+
   @override
   Future<CurrentWeatherData> getCurrentWeatherData(
     PositionCoordinates position,
   ) async {
+    await checkInternetConnection();
     final response = await _httpClient.get(
       Uri.parse(
         "$_baseApiPath/weather?lat=${position.latitude}&lon=${position.longitude}&units=metric&appid=$_apiAccessKey",
@@ -40,6 +51,7 @@ class WeatherRepositoryDataSourceImpl implements WeatherRemoteDataSource {
 
   @override
   Future<CurrentWeatherData> getCityWeatherData(String cityName) async {
+    await checkInternetConnection();
     var response = await _httpClient.get(Uri.parse(
       '$_baseApiPath/weather?q=$cityName&units=metric&appid=$_apiAccessKey',
     ));
@@ -55,6 +67,7 @@ class WeatherRepositoryDataSourceImpl implements WeatherRemoteDataSource {
   Future<WeeklyWeatherData> getWeeklyWeather(
     PositionCoordinates position,
   ) async {
+    await checkInternetConnection();
     final response = await _httpClient.get(
       Uri.parse(
         '$_weeklyWeatherBaseApiPath&latitude=${position.latitude}&longitude=${position.longitude}',
@@ -79,6 +92,7 @@ class WeatherRepositoryDataSourceImpl implements WeatherRemoteDataSource {
     int zoom,
     String mapType,
   ) async {
+    await checkInternetConnection();
     try {
       final uri = Uri.parse(
         "$_mapLayerBaseApiPath/$mapType/$zoom/$x/$y.png?appid=$_apiAccessKey",
