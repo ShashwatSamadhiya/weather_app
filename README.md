@@ -107,7 +107,7 @@ This app allows users to:
 
 ## 🎥 Demo Video
 
-▶️ [Watch Demo Video](#) <!-- Replace `#` with your Google Drive or video link -->
+https://github.com/user-attachments/assets/231f2cc2-b177-44c8-af99-1a8a274d077b
 
 ---
 
