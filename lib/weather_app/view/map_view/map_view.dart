@@ -74,10 +74,12 @@ class _WeatherMapScreenState extends State<WeatherMapScreen> {
       isScrollControlled: true,
       backgroundColor: Theme.of(context).colorScheme.primary,
       builder: (ctx) {
-        return MarkerInfo(
-          coordinates: PositionCoordinates(
-            latitude: latLng.latitude,
-            longitude: latLng.longitude,
+        return SafeArea(
+          child: MarkerInfo(
+            coordinates: PositionCoordinates(
+              latitude: latLng.latitude,
+              longitude: latLng.longitude,
+            ),
           ),
         );
       },
