@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
-import 'package:weather_app/weather_app/weather_app.dart';
+import 'package:weather_app/features/weather_app.dart';
 
 import '../helper/model_read.dart';
 import 'weather_remotesource_test.mocks.dart';

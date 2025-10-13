@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:weather_app/weather_app/weather_app.dart';
+import 'package:weather_app/features/weather_app.dart';
 
 class WeatherApp extends StatelessWidget {
   const WeatherApp({super.key});
