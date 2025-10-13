@@ -58,6 +58,7 @@ This app allows users to:
 
 * Follows **SOLID principles** and **clean architecture** for maintainability.
 * **Bloc** is used for state management, separating business logic from UI.
+* Flutter version used while developing 3.29
 * Project structure:
 
   * `lib/` – Core logic, features, and UI
