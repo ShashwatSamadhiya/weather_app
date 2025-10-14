@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:weather_app/features/weather_app.dart';
+import 'package:weather_app/weather_app.dart';
 
 class WeatherApp extends StatelessWidget {
   const WeatherApp({super.key});
@@ -14,12 +13,7 @@ class WeatherApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => WeatherAppBloc(
-        weatherRepository: WeatherRepositoryDataSourceImpl(
-          networkInfo: NetworkInfoImpl(InternetConnectionChecker.instance),
-        ),
-        locationService: LocationServiceImpl(),
-      ),
+      create: (context) => getIt<WeatherAppBloc>(),
       child: WeatherAppView(
         routes: routes,
       ),

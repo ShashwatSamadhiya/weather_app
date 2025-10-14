@@ -78,7 +78,7 @@ class _WeatherHomePageState extends State<WeatherHomePage> {
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
-              WeatherAppNavigation.instance.pushNamed(
+              getIt<WeatherAppNavigation>().pushNamed(
                 SearchCityWeather.routeName,
               );
             },

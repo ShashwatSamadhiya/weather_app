@@ -20,7 +20,7 @@ class WeatherAppTileProvider implements TileProvider {
     if (zoom >= 1 && zoom <= 20) {
       try {
         final uri = Uri.parse(
-          "https://tile.openweathermap.org/map/$mapType/$zoom/$x/$y.png?appid=${WeatherRepositoryDataSourceImpl._apiAccessKey}",
+          "https://tile.openweathermap.org/map/$mapType/$zoom/$x/$y.png?appid=${WeatherRemoteDataSourceImpl._apiAccessKey}",
         );
 
         final ByteData imageData = await NetworkAssetBundle(uri).load("");

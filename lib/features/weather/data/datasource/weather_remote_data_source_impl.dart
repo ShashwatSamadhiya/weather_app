@@ -1,10 +1,10 @@
 part of weather_app;
 
-class WeatherRepositoryDataSourceImpl implements WeatherRemoteDataSource {
+class WeatherRemoteDataSourceImpl implements WeatherRemoteDataSource {
   late http.Client _httpClient;
   late NetworkInfo networkInfo;
 
-  WeatherRepositoryDataSourceImpl({
+  WeatherRemoteDataSourceImpl({
     http.Client? httpClient,
     required this.networkInfo,
   }) {

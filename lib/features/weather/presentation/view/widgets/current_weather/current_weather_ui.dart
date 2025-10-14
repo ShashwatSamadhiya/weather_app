@@ -90,11 +90,12 @@ class CurrenWeatherUi extends StatelessWidget {
           label: "Wind Speed",
           value: "${(weatherData.wind.speed).toStringAsFixed(1)} m/s",
         ),
-        InfoCard(
-          icon: Icons.air,
-          label: "Wind Gust",
-          value: "${(weatherData.wind.gust).toStringAsFixed(1)} m/s",
-        ),
+        if (weatherData.wind.gust != null)
+          InfoCard(
+            icon: Icons.air,
+            label: "Wind Gust",
+            value: "${(weatherData.wind.gust)!.toStringAsFixed(1)} m/s",
+          ),
         InfoCard(
           icon: Icons.explore,
           label: "Wind Dir",

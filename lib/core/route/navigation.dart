@@ -1,18 +1,18 @@
 part of weather_app;
 
 class WeatherAppNavigation {
-  static WeatherAppNavigation? _instance;
+  // static WeatherAppNavigation? _instance;
 
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   NavigatorState get _navigatorKey => navigatorKey.currentState!;
 
-  WeatherAppNavigation._();
+  // WeatherAppNavigation._();
 
-  static WeatherAppNavigation get instance {
-    _instance ??= WeatherAppNavigation._();
-    return _instance!;
-  }
+  // static WeatherAppNavigation get instance {
+  //   _instance ??= WeatherAppNavigation._();
+  //   return _instance!;
+  // }
 }
 
 extension Navigation on WeatherAppNavigation {
