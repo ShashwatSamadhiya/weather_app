@@ -1,14 +1,12 @@
 part of weather_app;
 
 class WeatherAppBloc extends Bloc<WeatherEvent, WeatherState> {
-  // final WeatherRemoteDataSource weatherRepository;
   final GetCurrentWeatherData getCurrentWeather;
   final GetWeeklyWeather getWeeklyWeather;
   final GetCityWeather getWeatherByCity;
   final LocationService locationService;
 
   WeatherAppBloc({
-    // required this.weatherRepository,
     required this.locationService,
     required this.getCurrentWeather,
     required this.getWeeklyWeather,
@@ -145,32 +143,24 @@ class WeatherAppBloc extends Bloc<WeatherEvent, WeatherState> {
     MarkerInfoWeatherEvent event,
     Emitter<WeatherState> emit,
   ) async {
-    emit(WeatherErrorState(
-      type: WeatherStateType.markerInfo,
-      error: getWeatherAppExceptionFromError(
-        Exception('Not implemented'),
-        defaultMessage:
-            'Failed to get marker info weather data: ${"e".toString()}',
-      ),
-    ));
-    // try {
-    //   emit(const WeatherLoadingState(type: WeatherStateType.markerInfo));
-    //   final weatherData =
-    //       await weatherRepository.getCurrentWeatherData(event.coordinates);
-    //   emit(MarkerInfoDataLoadedState(
-    //     type: WeatherStateType.markerInfo,
-    //     weatherData: weatherData,
-    //     coordinates: event.coordinates,
-    //   ));
-    // } catch (error) {
-    //   emit(WeatherErrorState(
-    //     type: WeatherStateType.markerInfo,
-    //     error: getWeatherAppExceptionFromError(
-    //       error,
-    //       defaultMessage:
-    //           'Failed to get marker info weather data: ${error.toString()}',
-    //     ),
-    //   ));
-    // }
+    emit(const WeatherLoadingState(type: WeatherStateType.markerInfo));
+    final fetchWeatherData =
+        await getCurrentWeather(WeatherParams(coordinates: event.coordinates));
+    fetchWeatherData.fold((error) {
+      emit(WeatherErrorState(
+        type: WeatherStateType.markerInfo,
+        error: getWeatherAppExceptionFromError(
+          error,
+          defaultMessage:
+              'Failed to get marker info weather data: ${error.toString()}',
+        ),
+      ));
+    }, (weatherData) {
+      emit(MarkerInfoDataLoadedState(
+        type: WeatherStateType.markerInfo,
+        weatherData: weatherData,
+        coordinates: event.coordinates,
+      ));
+    });
   }
 }

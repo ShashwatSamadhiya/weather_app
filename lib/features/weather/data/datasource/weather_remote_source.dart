@@ -10,10 +10,4 @@ abstract class WeatherRemoteDataSource {
   Future<WeeklyWeatherData> getWeeklyWeather(
     PositionCoordinates position,
   );
-  Future<MapLayerData> getMapLayer(
-    int x,
-    int y,
-    int zoom,
-    String mapType,
-  );
 }

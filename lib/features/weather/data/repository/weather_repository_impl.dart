@@ -21,6 +21,10 @@ class WeatherRepositoryImpl extends WeatherRepository {
         return dartz.Right(remoteWeatherData);
       } on ServerException {
         return dartz.Left(ServerException());
+      } catch (error, stackTrace) {
+        // Log the error and stack trace for debugging purposes
+        print('Unexpected error: $error, StackTrace: $stackTrace');
+        return dartz.Left(WeatherAppException());
       }
     } else {
       return dartz.Left(NetworkException());
@@ -39,6 +43,10 @@ class WeatherRepositoryImpl extends WeatherRepository {
         return dartz.Right(remoteWeatherData);
       } on ServerException {
         return dartz.Left(ServerException());
+      } catch (error, stackTrace) {
+        // Log the error and stack trace for debugging purposes
+        print('Unexpected error: $error, StackTrace: $stackTrace');
+        return dartz.Left(WeatherAppException());
       }
     } else {
       return dartz.Left(NetworkException());
@@ -56,6 +64,10 @@ class WeatherRepositoryImpl extends WeatherRepository {
         return dartz.Right(remoteWeatherData);
       } on ServerException {
         return dartz.Left(ServerException());
+      } catch (error, stackTrace) {
+        // Log the error and stack trace for debugging purposes
+        print('Unexpected error: $error, StackTrace: $stackTrace');
+        return dartz.Left(WeatherAppException());
       }
     } else {
       return dartz.Left(NetworkException());
