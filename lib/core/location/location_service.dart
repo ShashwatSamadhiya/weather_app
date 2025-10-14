@@ -1,34 +1,36 @@
 part of weather_app;
 
 abstract class LocationService {
-  Future<PositionCoordinates> getCurrentLocation();
+  Future<dartz.Either<WeatherAppException, PositionCoordinates>>
+      getCurrentLocation();
 }
 
 class LocationServiceImpl implements LocationService {
   @override
-  Future<PositionCoordinates> getCurrentLocation() async {
+  Future<dartz.Either<WeatherAppException, PositionCoordinates>>
+      getCurrentLocation() async {
     try {
       LocationPermission permission;
       permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          throw LocationPermissionException();
+          return dartz.Left(LocationPermissionException());
         }
       }
       if (permission == LocationPermission.deniedForever) {
-        throw LocationPermissionException();
+        return dartz.Left(LocationPermissionException());
       }
       final location = await Geolocator.getCurrentPosition(
         locationSettings: LocationSettings(accuracy: LocationAccuracy.high),
       );
 
-      return PositionCoordinates(
+      return dartz.Right(PositionCoordinates(
         latitude: location.latitude,
         longitude: location.longitude,
-      );
+      ));
     } on LocationPermissionException {
-      rethrow;
+      return dartz.Left(LocationPermissionException());
     }
   }
 }

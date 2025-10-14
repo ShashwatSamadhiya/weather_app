@@ -35,7 +35,7 @@ class _SplashPageState extends State<SplashPage> {
     return BlocConsumer<WeatherAppBloc, WeatherState>(
       listener: (BuildContext context, WeatherState state) {
         if (state is LocationPermissionState) {
-          WeatherAppNavigation.instance.pushReplacementNamed(
+          getIt<WeatherAppNavigation>().pushReplacementNamed(
             WeatherHomePage.routeName,
           );
         }

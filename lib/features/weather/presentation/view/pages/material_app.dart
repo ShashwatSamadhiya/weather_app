@@ -17,7 +17,7 @@ class _WeatherAppViewState extends State<WeatherAppView> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Weather App',
-      navigatorKey: WeatherAppNavigation.instance.navigatorKey,
+      navigatorKey: getIt<WeatherAppNavigation>().navigatorKey,
       theme: WeatherAppTheme.darkTheme,
       routes: widget.routes,
       home: const SplashPage(),

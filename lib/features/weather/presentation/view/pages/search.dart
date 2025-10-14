@@ -100,7 +100,7 @@ class _SearchCityWeatherState extends State<SearchCityWeather> {
       );
       return;
     }
-    WeatherAppNavigation.instance.pushReplacement(
+    getIt<WeatherAppNavigation>().pushReplacement(
       CityWeather(cityName: cityName),
     );
   }
