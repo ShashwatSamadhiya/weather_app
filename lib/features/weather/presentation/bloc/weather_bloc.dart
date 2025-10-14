@@ -119,8 +119,9 @@ class WeatherAppBloc extends Bloc<WeatherEvent, WeatherState> {
         error: error,
       ));
     }, (position) async {
-      final fetchWeeklyWeatherData =
-          await getWeeklyWeather(WeatherParams(coordinates: position));
+      final fetchWeeklyWeatherData = await getWeeklyWeather(WeatherParams(
+        coordinates: position,
+      ));
       fetchWeeklyWeatherData.fold((error) {
         emit(WeatherErrorState(
           type: WeatherStateType.forecast,
@@ -144,8 +145,12 @@ class WeatherAppBloc extends Bloc<WeatherEvent, WeatherState> {
     Emitter<WeatherState> emit,
   ) async {
     emit(const WeatherLoadingState(type: WeatherStateType.markerInfo));
-    final fetchWeatherData =
-        await getCurrentWeather(WeatherParams(coordinates: event.coordinates));
+    final fetchWeatherData = await getCurrentWeather(
+      WeatherParams(
+        coordinates: event.coordinates,
+        doSaveToCache: false,
+      ),
+    );
     fetchWeatherData.fold((error) {
       emit(WeatherErrorState(
         type: WeatherStateType.markerInfo,

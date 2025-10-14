@@ -29,6 +29,24 @@ class WeeklyWeatherData {
     return WeeklyWeatherData(weekWeatherdata: data);
   }
 
+  factory WeeklyWeatherData.fromCacheJson(Map<String, dynamic> json) {
+    final list = (json['weekWeatherdata'] as List)
+        .map((e) => DayWeatherData(
+              day: e['day'],
+              image: WeatherIcons.getWeatherIcon(e['image']),
+              max: (e['max'] as num).toDouble(),
+              min: (e['min'] as num).toDouble(),
+              name: e['name'],
+            ))
+        .toList();
+
+    return WeeklyWeatherData(weekWeatherdata: list);
+  }
+
+  Map<String, dynamic> toJson() => {
+        'weekWeatherdata': weekWeatherdata.map((e) => e.toJson()).toList(),
+      };
+
   static String getWeatherNameFromCode(int code) {
     if (code == 0) {
       return "Clear";

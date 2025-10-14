@@ -12,4 +12,10 @@ class Wind {
         deg: json['deg'],
         gust: json['gust'] != null ? (json['gust'] as num).toDouble() : null,
       );
+
+  Map<String, dynamic> toJson() => {
+        'speed': speed,
+        'deg': deg,
+        'gust': gust,
+      };
 }

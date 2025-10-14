@@ -3,14 +3,17 @@ part of weather_app;
 abstract class WeatherRepository {
   Future<dartz.Either<WeatherAppException, CurrentWeatherData>>
       getCurrentWeatherData(
-    PositionCoordinates position,
-  );
+    PositionCoordinates position, {
+    bool doSaveToCache = true,
+  });
 
   Future<dartz.Either<WeatherAppException, CurrentWeatherData>>
       getCityWeatherData(
-    String cityName,
-  );
+    String cityName, {
+    bool doSaveToCache = true,
+  });
   Future<dartz.Either<WeatherAppException, WeeklyWeatherData>> getWeeklyWeather(
-    PositionCoordinates position,
-  );
+    PositionCoordinates position, {
+    bool doSaveToCache = true,
+  });
 }

@@ -19,4 +19,11 @@ class WeatherData {
         description: json['description'],
         icon: json['icon'],
       );
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'main': main,
+        'description': description,
+        'icon': icon,
+      };
 }

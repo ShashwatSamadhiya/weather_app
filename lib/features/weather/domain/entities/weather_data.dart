@@ -33,4 +33,15 @@ class WeatherDataModel {
         seaLevel: json['sea_level'],
         grndLevel: json['grnd_level'],
       );
+
+  Map<String, dynamic> toJson() => {
+        'temp': temp,
+        'feels_like': feelsLike,
+        'temp_min': tempMin,
+        'temp_max': tempMax,
+        'pressure': pressure,
+        'humidity': humidity,
+        'sea_level': seaLevel,
+        'grnd_level': grndLevel,
+      };
 }

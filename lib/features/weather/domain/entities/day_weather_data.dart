@@ -14,4 +14,12 @@ class DayWeatherData {
     required this.max,
     required this.min,
   });
+
+  Map<String, dynamic> toJson() => {
+        'day': day,
+        'image': WeatherIcons.getWeatherString(image),
+        'max': max,
+        'min': min,
+        'name': name,
+      };
 }

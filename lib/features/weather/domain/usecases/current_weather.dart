@@ -9,6 +9,9 @@ class GetCurrentWeatherData
   Future<dartz.Either<WeatherAppException, CurrentWeatherData>> call(
     WeatherParams params,
   ) async {
-    return await repository.getCurrentWeatherData(params.coordinates);
+    return await repository.getCurrentWeatherData(
+      params.coordinates,
+      doSaveToCache: params.doSaveToCache,
+    );
   }
 }

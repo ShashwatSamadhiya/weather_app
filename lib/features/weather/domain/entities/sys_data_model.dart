@@ -22,4 +22,12 @@ class SysDataModel {
         sunrise: json['sunrise'],
         sunset: json['sunset'],
       );
+
+  Map<String, dynamic> toJson() => {
+        'type': type,
+        'id': id,
+        'country': country,
+        'sunrise': sunrise,
+        'sunset': sunset,
+      };
 }

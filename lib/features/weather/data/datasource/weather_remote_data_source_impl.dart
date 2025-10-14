@@ -13,7 +13,6 @@ class WeatherRemoteDataSourceImpl implements WeatherRemoteDataSource {
 
   static const _apiAccessKey = String.fromEnvironment('WEATHER_API_ACCESS_KEY');
 
-  /// Base API path for the currency converter service.
   final String _baseApiPath = 'https://api.openweathermap.org/data/2.5';
 
   final String _weeklyWeatherBaseApiPath =

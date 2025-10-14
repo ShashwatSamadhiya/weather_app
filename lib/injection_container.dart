@@ -3,6 +3,10 @@ part of weather_app;
 final getIt = GetIt.instance;
 
 Future<void> initialize() async {
+  final sharedPreferences = await SharedPreferences.getInstance();
+
+  getIt.registerSingleton<SharedPreferences>(sharedPreferences);
+
   //
   getIt.registerLazySingleton<WeatherAppNavigation>(
     () => WeatherAppNavigation(),
@@ -29,9 +33,17 @@ Future<void> initialize() async {
   );
 
   //
+  getIt.registerLazySingleton<WeatherLocalDataSource>(
+    () => WeatherLocalDataSourceImpl(
+      sharedPreferences: getIt(),
+    ),
+  );
+
+  //
   getIt.registerLazySingleton<WeatherRepository>(
     () => WeatherRepositoryImpl(
       weatherRemoteDataSource: getIt(),
+      weatherLocalDataSource: getIt(),
       networkInfo: getIt(),
     ),
   );
@@ -43,6 +55,8 @@ Future<void> initialize() async {
       networkInfo: getIt(),
     ),
   );
+
+//
 
   // Use cases
   getIt.registerLazySingleton(() => GetCurrentWeatherData(getIt()));

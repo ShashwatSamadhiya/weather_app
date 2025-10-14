@@ -61,4 +61,22 @@ class CurrentWeatherData {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'timezone': timezone,
+        'cod': cod,
+        'day': day,
+        'image': WeatherIcons.getWeatherString(image), // store as string
+        'coord': coord.toMap(),
+        'weather': weather.map((e) => e.toJson()).toList(),
+        'base': base,
+        'main': main.toJson(),
+        'visibility': visibility,
+        'wind': wind.toJson(),
+        'clouds': {'all': clouds},
+        'dt': dt,
+        'sys': sys.toJson(),
+      };
 }

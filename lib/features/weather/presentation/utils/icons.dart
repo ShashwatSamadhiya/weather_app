@@ -19,4 +19,14 @@ class WeatherIcons {
         return Icons.help_outline; // fallback
     }
   }
+
+  static String getWeatherString(IconData icon) {
+    if (icon == Icons.flash_on) return "thunderstorm";
+    if (icon == Icons.grain) return "drizzle";
+    if (icon == Icons.umbrella) return "rain";
+    if (icon == Icons.ac_unit) return "snow";
+    if (icon == Icons.wb_sunny) return "clear";
+    if (icon == Icons.cloud) return "clouds";
+    return "unknown"; // fallback
+  }
 }

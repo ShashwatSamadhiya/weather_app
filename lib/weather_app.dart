@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'injection_container.dart';
 
@@ -28,8 +29,10 @@ part 'features/weather/presentation/bloc/weather_state.dart';
 part 'features/weather/presentation/utils/icons.dart';
 
 part 'features/weather/data/datasource/weather_remote_data_source_impl.dart';
-
 part 'features/weather/data/repository/weather_repository_impl.dart';
+part 'features/weather/data/datasource/weather_local_data_source.dart';
+part 'features/weather/data/datasource/weather_remote_source.dart';
+part 'features/weather/data/datasource/weather_local_data_source_impl.dart';
 
 part 'features/weather/domain/entities/wind.dart';
 part 'features/weather/domain/entities/position.dart';
@@ -40,8 +43,6 @@ part 'features/weather/domain/entities/day_weather_data.dart';
 part 'features/weather/domain/entities/week_weather_data.dart';
 part 'features/weather/domain/entities/weather_data_by_hour.dart';
 part 'features/weather/domain/entities/weather.dart';
-part 'features/map/domain/entities/map_layer_data.dart';
-part 'features/weather/data/datasource/weather_remote_source.dart';
 
 part 'features/weather/presentation/view/pages/material_app.dart';
 
@@ -76,3 +77,4 @@ part 'features/map/data/datasource/map_layer_remote.dart';
 part 'features/map/data/datasource/map_layer_remote_impl.dart';
 part 'features/map/domain/repositories/map_repository.dart';
 part 'features/map/data/repository/map_layer_impl.dart';
+part 'features/map/domain/entities/map_layer_data.dart';
