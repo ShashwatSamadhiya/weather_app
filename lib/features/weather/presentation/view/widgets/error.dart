@@ -13,7 +13,10 @@ class ErrorWidget extends StatelessWidget {
   Widget retryButton(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: onRetry,
-      icon: const Icon(Icons.refresh),
+      icon: const Icon(
+        Icons.refresh,
+        color: Colors.black,
+      ),
       label: const Text("Retry"),
       style: ElevatedButton.styleFrom(
         backgroundColor: Theme.of(context).colorScheme.primary,

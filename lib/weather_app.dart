@@ -40,7 +40,7 @@ part 'features/weather/domain/entities/day_weather_data.dart';
 part 'features/weather/domain/entities/week_weather_data.dart';
 part 'features/weather/domain/entities/weather_data_by_hour.dart';
 part 'features/weather/domain/entities/weather.dart';
-part 'features/weather/domain/entities/map_layer_data.dart';
+part 'features/map/domain/entities/map_layer_data.dart';
 part 'features/weather/data/datasource/weather_remote_source.dart';
 
 part 'features/weather/presentation/view/pages/material_app.dart';
@@ -58,11 +58,11 @@ part 'features/weather/presentation/view/widgets/forecast/forecast_view.dart';
 part 'features/weather/presentation/view/widgets/forecast/forecast_tile.dart';
 part 'features/weather/presentation/view/widgets/city/city_weather.dart';
 
-part 'features/weather/presentation/view/map_view/map_view.dart';
-part 'features/weather/presentation/view/map_view/marker_weather_info.dart';
-part 'features/weather/presentation/view/map_view/marker_info.dart';
-part 'features/weather/presentation/view/map_view/map_tile_provider.dart';
-part 'features/weather/presentation/view/map_view/fab_button_data.dart';
+part 'features/map/presentation/map_view/map_view.dart';
+part 'features/map/presentation/map_view/marker_weather_info.dart';
+part 'features/map/presentation/map_view/marker_info.dart';
+part 'features/map/presentation/map_view/map_tile_provider.dart';
+part 'features/map/presentation/map_view/fab_button_data.dart';
 
 part 'features/weather/domain/repositories/weather_repository.dart';
 
@@ -71,3 +71,8 @@ part 'features/weather/domain/usecases/weather_params.dart';
 part 'features/weather/domain/usecases/weekly_weather.dart';
 part 'features/weather/domain/usecases/city_weather.dart';
 part 'features/weather/domain/usecases/current_weather.dart';
+
+part 'features/map/data/datasource/map_layer_remote.dart';
+part 'features/map/data/datasource/map_layer_remote_impl.dart';
+part 'features/map/domain/repositories/map_repository.dart';
+part 'features/map/data/repository/map_layer_impl.dart';

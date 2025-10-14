@@ -49,6 +49,14 @@ Future<void> initialize() async {
   getIt.registerLazySingleton(() => GetWeeklyWeather(getIt()));
   getIt.registerLazySingleton(() => GetCityWeather(getIt()));
 
+  getIt.registerLazySingleton<MapLayerRemote>(
+    () => MapLayerRemoteImpl(networkInfo: getIt()),
+  );
+  // Repository
+  getIt.registerLazySingleton<MapRepository>(
+    () => MapRepositoryImpl(remote: getIt(), networkInfo: getIt()),
+  );
+
   //
   getIt.registerFactory(() {
     return WeatherAppBloc(

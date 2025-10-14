@@ -19,8 +19,6 @@ class WeatherRemoteDataSourceImpl implements WeatherRemoteDataSource {
   final String _weeklyWeatherBaseApiPath =
       'https://api.open-meteo.com/v1/forecast?current=&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto';
 
-  final String _mapLayerBaseApiPath = 'https://tile.openweathermap.org/map';
-
   Future<void> checkInternetConnection() async {
     if (!await networkInfo.isConnected) {
       throw NetworkException();
@@ -81,26 +79,6 @@ class WeatherRemoteDataSourceImpl implements WeatherRemoteDataSource {
         json.decode(response.body),
       );
     } else {
-      throw ServerException();
-    }
-  }
-
-  @override
-  Future<MapLayerData> getMapLayer(
-    int x,
-    int y,
-    int zoom,
-    String mapType,
-  ) async {
-    await checkInternetConnection();
-    try {
-      final uri = Uri.parse(
-        "$_mapLayerBaseApiPath/$mapType/$zoom/$x/$y.png?appid=$_apiAccessKey",
-      );
-
-      final ByteData imageData = await NetworkAssetBundle(uri).load("");
-      return MapLayerData.fromByteData(imageData);
-    } catch (e) {
       throw ServerException();
     }
   }
