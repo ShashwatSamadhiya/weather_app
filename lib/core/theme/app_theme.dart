@@ -23,7 +23,7 @@ class WeatherAppTheme {
       labelLarge: TextStyle(
           color: Colors.greenAccent, fontSize: 16, fontWeight: FontWeight.w600),
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: Color(0xFF101810),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(16))),
@@ -71,7 +71,7 @@ class WeatherAppTheme {
       labelLarge: TextStyle(
           color: Colors.green, fontSize: 16, fontWeight: FontWeight.w600),
     ),
-    cardTheme: const CardTheme(
+    cardTheme: const CardThemeData(
       color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(16)),

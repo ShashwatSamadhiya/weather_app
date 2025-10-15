@@ -27,7 +27,7 @@ Future<void> initialize() async {
     () => InternetConnectionChecker.createInstance(
       addresses: [
         AddressCheckOption(
-          uri: Uri.parse('https://www.google.com'),
+          uri: Uri.parse('https://www.example.com'),
           timeout: Duration(seconds: 2),
         ),
       ],
