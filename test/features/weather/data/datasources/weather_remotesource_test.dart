@@ -4,7 +4,7 @@ import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather_app/weather_app.dart';
 
-import '../helper/model_read.dart';
+import '../../../../helper/model_read.dart';
 import 'weather_remotesource_test.mocks.dart';
 
 @GenerateMocks([http.Client, NetworkInfo])
