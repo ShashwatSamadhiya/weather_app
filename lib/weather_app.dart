@@ -22,6 +22,7 @@ part 'core/location/location_service.dart';
 part 'core/network/network.dart';
 part 'core/route/navigation.dart';
 part 'core/theme/app_theme.dart';
+part 'core/constant/constant.dart';
 
 part 'features/weather/presentation/bloc/weather_bloc.dart';
 part 'features/weather/presentation/bloc/weather_event.dart';

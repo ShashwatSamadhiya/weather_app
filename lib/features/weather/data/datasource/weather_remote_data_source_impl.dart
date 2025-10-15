@@ -11,13 +11,6 @@ class WeatherRemoteDataSourceImpl implements WeatherRemoteDataSource {
     _httpClient = httpClient ?? http.Client();
   }
 
-  static const _apiAccessKey = String.fromEnvironment('WEATHER_API_ACCESS_KEY');
-
-  final String _baseApiPath = 'https://api.openweathermap.org/data/2.5';
-
-  final String _weeklyWeatherBaseApiPath =
-      'https://api.open-meteo.com/v1/forecast?current=&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto';
-
   Future<void> checkInternetConnection() async {
     if (!await networkInfo.isConnected) {
       throw NetworkException();

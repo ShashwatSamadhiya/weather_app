@@ -7,8 +7,6 @@ class MapLayerRemoteImpl implements MapLayerRemote {
     required this.networkInfo,
   });
 
-  final String _mapLayerBaseApiPath = 'https://tile.openweathermap.org/map';
-
   Future<void> checkInternetConnection() async {
     if (!await networkInfo.isConnected) {
       throw NetworkException();
@@ -25,7 +23,7 @@ class MapLayerRemoteImpl implements MapLayerRemote {
     await checkInternetConnection();
     try {
       final uri = Uri.parse(
-        "$_mapLayerBaseApiPath/$mapType/$zoom/$x/$y.png?appid=${WeatherRemoteDataSourceImpl._apiAccessKey}",
+        "$_mapLayerBaseApiPath/$mapType/$zoom/$x/$y.png?appid=$_apiAccessKey",
       );
 
       final ByteData imageData = await NetworkAssetBundle(uri).load("");
