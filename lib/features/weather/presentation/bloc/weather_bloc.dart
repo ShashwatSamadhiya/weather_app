@@ -23,8 +23,11 @@ class WeatherAppBloc extends Bloc<WeatherEvent, WeatherState> {
     CurrentLocationEvent event,
     Emitter<WeatherState> emit,
   ) async {
+    print("TESTING: ${DateTime.now()} _onCurrentLocationEvent");
     emit(const WeatherLoadingState(type: WeatherStateType.location));
     final position = await locationService.getCurrentLocation();
+    print(
+        "TESTING: ${DateTime.now()} _onCurrentLocationEvent position: $position");
     position.fold((error) {
       emit(WeatherErrorState(
         type: WeatherStateType.location,
@@ -56,14 +59,18 @@ class WeatherAppBloc extends Bloc<WeatherEvent, WeatherState> {
     CurrentLocationWeatherEvent event,
     Emitter<WeatherState> emit,
   ) async {
+    print("TESTING ${DateTime.now()}:Error in getting location: $event");
+
     emit(const WeatherLoadingState(type: WeatherStateType.currentWeather));
     final position = await locationService.getCurrentLocation();
     await position.fold((error) {
+      print("Error in getting location: $error");
       emit(WeatherErrorState(
         type: WeatherStateType.location,
         error: error,
       ));
     }, (position) async {
+      print("TESTING ${DateTime.now()}: position in getting location: $event");
       final fetchWeatherData =
           await getCurrentWeather(WeatherParams(coordinates: position));
       fetchWeatherData.fold((error) {

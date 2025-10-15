@@ -24,7 +24,14 @@ Future<void> initialize() async {
 
   //
   getIt.registerLazySingleton(
-    () => InternetConnectionChecker.instance,
+    () => InternetConnectionChecker.createInstance(
+      addresses: [
+        AddressCheckOption(
+          uri: Uri.parse('https://www.google.com'),
+          timeout: Duration(seconds: 2),
+        ),
+      ],
+    ),
   );
 
   //
