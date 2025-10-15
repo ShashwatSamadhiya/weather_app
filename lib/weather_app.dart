@@ -26,7 +26,7 @@ part 'core/theme/app_theme.dart';
 part 'features/weather/presentation/bloc/weather_bloc.dart';
 part 'features/weather/presentation/bloc/weather_event.dart';
 part 'features/weather/presentation/bloc/weather_state.dart';
-part 'features/weather/presentation/utils/icons.dart';
+part 'features/utils/icons.dart';
 
 part 'features/weather/data/datasource/weather_remote_data_source_impl.dart';
 part 'features/weather/data/repository/weather_repository_impl.dart';

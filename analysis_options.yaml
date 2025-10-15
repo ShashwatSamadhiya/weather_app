@@ -4,3 +4,4 @@ linter:
   rules:
     unnecessary_library_name: false
     use_string_in_part_of_directives: false
+    avoid_print: false
