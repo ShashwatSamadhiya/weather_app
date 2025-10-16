@@ -79,3 +79,7 @@ part 'features/map/data/datasource/map_layer_remote_impl.dart';
 part 'features/map/domain/repositories/map_repository.dart';
 part 'features/map/data/repository/map_layer_impl.dart';
 part 'features/map/domain/entities/map_layer_data.dart';
+
+part 'features/user_address/domain/entity/user_address.dart';
+part 'features/user_address/presentation/cubit.dart';
+part 'features/user_address/presentation/user_address_page.dart';
