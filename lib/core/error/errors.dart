@@ -9,9 +9,27 @@ class WeatherAppException extends Error {
 }
 
 class ServerException extends WeatherAppException {
+  int? statusCode;
   ServerException({
+    this.statusCode,
     super.errorMessage =
         "An error occurred while communicating with the server. Please try again later.",
+  });
+}
+
+class HttpException extends WeatherAppException {
+  int? statusCode;
+  HttpException({
+    this.statusCode,
+    super.errorMessage =
+        "An HTTP error occurred. Please try again with proper data or try again later.",
+  });
+}
+
+class ParsingException extends WeatherAppException {
+  ParsingException({
+    super.errorMessage =
+        "Data not in proper format. Unable to process the information received.",
   });
 }
 

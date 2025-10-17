@@ -2,6 +2,7 @@ library weather_app;
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -20,6 +21,10 @@ part 'injection_container.dart';
 part 'core/error/errors.dart';
 part 'core/location/location_service.dart';
 part 'core/network/network.dart';
+part 'core/network/weather_app_api.dart';
+part 'core/network/weather_app_api_impl.dart';
+part 'core/network/api_client.dart';
+part 'core/network/api_router.dart';
 part 'core/route/navigation.dart';
 part 'core/theme/app_theme.dart';
 part 'core/constant/constant.dart';
@@ -44,6 +49,9 @@ part 'features/weather/domain/entities/day_weather_data.dart';
 part 'features/weather/domain/entities/week_weather_data.dart';
 part 'features/weather/domain/entities/weather_data_by_hour.dart';
 part 'features/weather/domain/entities/weather.dart';
+part 'features/weather/domain/entities/current_weather_api_route.dart';
+part 'features/weather/domain/entities/city_weather_api_route.dart';
+part 'features/weather/domain/entities/weekly_weather_api_route.dart';
 
 part 'features/weather/presentation/view/pages/material_app.dart';
 

@@ -1,17 +1,16 @@
 part of weather_app;
 
 class GetCurrentWeatherData
-    implements WeatherUseCase<CurrentWeatherData, WeatherParams> {
+    implements WeatherUseCase<CurrentWeatherData, CurrentWeatherApiRouteData> {
   final WeatherRepository repository;
 
   GetCurrentWeatherData(this.repository);
   @override
   Future<dartz.Either<WeatherAppException, CurrentWeatherData>> call(
-    WeatherParams params,
+    CurrentWeatherApiRouteData params,
   ) async {
     return await repository.getCurrentWeatherData(
-      params.coordinates,
-      doSaveToCache: params.doSaveToCache,
+      params,
     );
   }
 }

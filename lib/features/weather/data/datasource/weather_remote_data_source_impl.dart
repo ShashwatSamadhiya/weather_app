@@ -1,77 +1,47 @@
 part of weather_app;
 
 class WeatherRemoteDataSourceImpl implements WeatherRemoteDataSource {
-  late http.Client _httpClient;
-  late NetworkInfo networkInfo;
+  WeatherAppApiHelper weatherAppApiHelper;
+  ApiClient apiClient;
 
   WeatherRemoteDataSourceImpl({
-    http.Client? httpClient,
-    required this.networkInfo,
-  }) {
-    _httpClient = httpClient ?? http.Client();
-  }
-
-  Future<void> checkInternetConnection() async {
-    if (!await networkInfo.isConnected) {
-      throw NetworkException();
-    }
-  }
+    required this.weatherAppApiHelper,
+    required this.apiClient,
+  });
 
   @override
-  Future<CurrentWeatherData> getCurrentWeatherData(
-    PositionCoordinates position,
-  ) async {
-    await checkInternetConnection();
-    final response = await _httpClient.get(
-      Uri.parse(
-        "$_baseApiPath/weather?lat=${position.latitude}&lon=${position.longitude}&units=metric&appid=$_apiAccessKey",
+  Future<dartz.Either<WeatherAppException, CurrentWeatherData>>
+      getCurrentWeatherData(
+          CurrentWeatherApiRouteData currentWeatherApiRouteData) async {
+    return await weatherAppApiHelper.ensure<CurrentWeatherData>(
+      () => apiClient.getRequest(currentWeatherApiRouteData),
+      parser: (data) => CurrentWeatherData.fromJson(
+        json.decode(data),
       ),
-      headers: {
-        'content-Type': 'application/json',
-      },
     );
-    if (response.statusCode == 200) {
-      return CurrentWeatherData.fromJson(
-        json.decode(response.body),
-      );
-    } else {
-      throw ServerException();
-    }
   }
 
   @override
-  Future<CurrentWeatherData> getCityWeatherData(String cityName) async {
-    await checkInternetConnection();
-    var response = await _httpClient.get(Uri.parse(
-      '$_baseApiPath/weather?q=$cityName&units=metric&appid=$_apiAccessKey',
-    ));
-
-    if (response.statusCode == 200) {
-      return CurrentWeatherData.fromJson(json.decode(response.body));
-    } else {
-      throw ServerException();
-    }
-  }
-
-  @override
-  Future<WeeklyWeatherData> getWeeklyWeather(
-    PositionCoordinates position,
-  ) async {
-    await checkInternetConnection();
-    final response = await _httpClient.get(
-      Uri.parse(
-        '$_weeklyWeatherBaseApiPath&latitude=${position.latitude}&longitude=${position.longitude}',
+  Future<dartz.Either<WeatherAppException, CurrentWeatherData>>
+      getCityWeatherData(
+          CityWeatherApiRouteData cityWeatherApiRouteData) async {
+    return await weatherAppApiHelper.ensure<CurrentWeatherData>(
+      () => apiClient.getRequest(cityWeatherApiRouteData),
+      parser: (data) => CurrentWeatherData.fromJson(
+        json.decode(data),
       ),
-      headers: {
-        'content-Type': 'application/json',
-      },
     );
-    if (response.statusCode == 200) {
-      return WeeklyWeatherData.fromJson(
-        json.decode(response.body),
-      );
-    } else {
-      throw ServerException();
-    }
+  }
+
+  @override
+  Future<dartz.Either<WeatherAppException, WeeklyWeatherData>> getWeeklyWeather(
+    WeeklyWeatherApiRouteData weeklyWeatherApiRouteData,
+  ) async {
+    return await weatherAppApiHelper.ensure<WeeklyWeatherData>(
+      () => apiClient.getRequest(weeklyWeatherApiRouteData),
+      parser: (data) => WeeklyWeatherData.fromJson(
+        json.decode(data),
+      ),
+    );
   }
 }

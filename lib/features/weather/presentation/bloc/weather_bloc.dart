@@ -65,7 +65,10 @@ class WeatherAppBloc extends Bloc<WeatherEvent, WeatherState> {
       ));
     }, (position) async {
       final fetchWeatherData =
-          await getCurrentWeather(WeatherParams(coordinates: position));
+          await getCurrentWeather(CurrentWeatherApiRouteData(
+        latitude: position.latitude,
+        longitude: position.longitude,
+      ));
       fetchWeatherData.fold((error) {
         emit(WeatherErrorState(
           type: WeatherStateType.currentWeather,
@@ -88,7 +91,11 @@ class WeatherAppBloc extends Bloc<WeatherEvent, WeatherState> {
     Emitter<WeatherState> emit,
   ) async {
     emit(const WeatherLoadingState(type: WeatherStateType.city));
-    final fetchCityWeatherName = await getWeatherByCity(event.cityName);
+    final fetchCityWeatherName = await getWeatherByCity(
+      CityWeatherApiRouteData(
+        cityName: event.cityName,
+      ),
+    );
     fetchCityWeatherName.fold((error) {
       emit(WeatherErrorState(
         type: WeatherStateType.city,
@@ -119,8 +126,9 @@ class WeatherAppBloc extends Bloc<WeatherEvent, WeatherState> {
         error: error,
       ));
     }, (position) async {
-      final fetchWeeklyWeatherData = await getWeeklyWeather(WeatherParams(
-        coordinates: position,
+      final fetchWeeklyWeatherData =
+          await getWeeklyWeather(WeeklyWeatherApiRouteData(
+        position: position,
       ));
       fetchWeeklyWeatherData.fold((error) {
         emit(WeatherErrorState(
@@ -146,8 +154,9 @@ class WeatherAppBloc extends Bloc<WeatherEvent, WeatherState> {
   ) async {
     emit(const WeatherLoadingState(type: WeatherStateType.markerInfo));
     final fetchWeatherData = await getCurrentWeather(
-      WeatherParams(
-        coordinates: event.coordinates,
+      CurrentWeatherApiRouteData(
+        latitude: event.coordinates.latitude,
+        longitude: event.coordinates.longitude,
         doSaveToCache: false,
       ),
     );

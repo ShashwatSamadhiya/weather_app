@@ -47,6 +47,15 @@ Future<void> initialize() async {
   );
 
   //
+  getIt
+      .registerLazySingleton<WeatherAppApiHelper>(() => WeatherAppApiHelperImpl(
+            networkInfo: getIt(),
+          ));
+
+  getIt.registerLazySingleton<ApiClient>(() => ApiClientImpl(
+        httpClient: getIt(),
+      ));
+
   getIt.registerLazySingleton<WeatherRepository>(
     () => WeatherRepositoryImpl(
       weatherRemoteDataSource: getIt(),
@@ -58,8 +67,8 @@ Future<void> initialize() async {
   //
   getIt.registerLazySingleton<WeatherRemoteDataSource>(
     () => WeatherRemoteDataSourceImpl(
-      httpClient: getIt(),
-      networkInfo: getIt(),
+      weatherAppApiHelper: getIt(),
+      apiClient: getIt(),
     ),
   );
 

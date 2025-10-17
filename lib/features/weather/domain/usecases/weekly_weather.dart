@@ -1,14 +1,14 @@
 part of weather_app;
 
 class GetWeeklyWeather
-    implements WeatherUseCase<WeeklyWeatherData, WeatherParams> {
+    implements WeatherUseCase<WeeklyWeatherData, WeeklyWeatherApiRouteData> {
   final WeatherRepository repository;
 
   GetWeeklyWeather(this.repository);
   @override
   Future<dartz.Either<WeatherAppException, WeeklyWeatherData>> call(
-    WeatherParams params,
+    WeeklyWeatherApiRouteData params,
   ) async {
-    return await repository.getWeeklyWeather(params.coordinates);
+    return await repository.getWeeklyWeather(params);
   }
 }

@@ -14,109 +14,94 @@ class WeatherRepositoryImpl extends WeatherRepository {
   @override
   Future<dartz.Either<WeatherAppException, CurrentWeatherData>>
       getCurrentWeatherData(
-    PositionCoordinates position, {
-    bool doSaveToCache = true,
-  }) async {
-    try {
-      if (await networkInfo.isConnected) {
-        final remoteWeatherData =
-            await weatherRemoteDataSource.getCurrentWeatherData(
-          position,
-        );
-        if (doSaveToCache) {
+    CurrentWeatherApiRouteData currentWeatherApiRouteData,
+  ) async {
+    final response = await weatherRemoteDataSource.getCurrentWeatherData(
+      currentWeatherApiRouteData,
+    );
+    return await response.fold(
+      (error) async {
+        print("getCurrentWeatherData error: $error ,");
+        try {
+          final localData = await weatherLocalDataSource.getLastCurrentWeather(
+            PositionCoordinates(
+              latitude: currentWeatherApiRouteData.latitude,
+              longitude: currentWeatherApiRouteData.longitude,
+            ),
+          );
+          if (localData == null) {
+            return dartz.Left(
+              error,
+            );
+          }
+          return dartz.Right(localData);
+        } catch (cacheError, stackTrace) {
+          log("getCurrentWeatherData cacheError: $cacheError , stackTrace: $stackTrace");
+          return dartz.Left(WeatherAppException());
+        }
+      },
+      (data) async {
+        if (currentWeatherApiRouteData.doSaveToCache) {
           await weatherLocalDataSource.cacheCurrentWeather(
-            position,
-            remoteWeatherData,
+            PositionCoordinates(
+              latitude: currentWeatherApiRouteData.latitude,
+              longitude: currentWeatherApiRouteData.longitude,
+            ),
+            data,
           );
         }
-        return dartz.Right(remoteWeatherData);
-      } else {
-        throw NetworkException();
-      }
-    } catch (error, stackTrace) {
-      print("getCurrentWeatherData error: $error , stackTrace: $stackTrace");
-      try {
-        final localData =
-            await weatherLocalDataSource.getLastCurrentWeather(position);
-        if (localData == null) {
-          return dartz.Left(
-            error is WeatherAppException ? error : WeatherAppException(),
-          );
-        }
-        return dartz.Right(localData);
-      } catch (cacheError) {
-        print(
-            "getCurrentWeatherData cacheError: $error , stackTrace: $stackTrace");
-        return dartz.Left(WeatherAppException());
-      }
-    }
+        return dartz.Right(data);
+      },
+    );
   }
 
   @override
   Future<dartz.Either<WeatherAppException, CurrentWeatherData>>
       getCityWeatherData(
-    String cityName, {
-    bool doSaveToCache = true,
-  }) async {
-    try {
-      if (await networkInfo.isConnected) {
-        final remoteWeatherData =
-            await weatherRemoteDataSource.getCityWeatherData(cityName);
-        await weatherLocalDataSource.cacheCityWeather(
-          cityName,
-          remoteWeatherData,
-        );
-        return dartz.Right(remoteWeatherData);
-      } else {
-        throw NetworkException();
-      }
-    } catch (error, stackTrace) {
-      print("getCurrentWeatherData error: $error , stackTrace: $stackTrace");
+    CityWeatherApiRouteData cityWeatherApiRouteData,
+  ) async {
+    final remoteWeatherData = await weatherRemoteDataSource
+        .getCityWeatherData(cityWeatherApiRouteData);
+    return await remoteWeatherData.fold((error) async {
+      log("getCurrentWeatherData error: $error ");
       try {
-        final localData =
-            await weatherLocalDataSource.getLastCityWeather(cityName);
+        final localData = await weatherLocalDataSource
+            .getLastCityWeather(cityWeatherApiRouteData.cityName);
         if (localData == null) {
           return dartz.Left(
-            error is WeatherAppException ? error : WeatherAppException(),
+            error,
           );
         }
         return dartz.Right(localData);
-      } catch (cacheError) {
-        print(
-          "getCurrentWeatherData cacheError: $error , stackTrace: $stackTrace",
+      } catch (cacheError, stackTrace) {
+        log(
+          "getCurrentWeatherData cacheError: $cacheError , stackTrace: $stackTrace",
         );
 
         return dartz.Left(WeatherAppException());
       }
-    }
+    }, (data) async {
+      await weatherLocalDataSource.cacheCityWeather(
+        cityWeatherApiRouteData.cityName,
+        data,
+      );
+      return dartz.Right(data);
+    });
   }
 
   @override
   Future<dartz.Either<WeatherAppException, WeeklyWeatherData>> getWeeklyWeather(
-    PositionCoordinates position, {
-    bool doSaveToCache = true,
-  }) async {
-    try {
-      if (await networkInfo.isConnected) {
-        final remoteWeatherData =
-            await weatherRemoteDataSource.getWeeklyWeather(position);
-        await weatherLocalDataSource.cacheWeeklyWeather(
-          position,
-          remoteWeatherData,
-        );
-        return dartz.Right(remoteWeatherData);
-      } else {
-        throw NetworkException();
-      }
-    } catch (error, stackTrace) {
-      print("getCurrentWeatherData error: $error , stackTrace: $stackTrace");
-
+    WeeklyWeatherApiRouteData weeklyWeatherApiRouteData,
+  ) async {
+    final remoteWeatherData = await weatherRemoteDataSource
+        .getWeeklyWeather(weeklyWeatherApiRouteData);
+    return await remoteWeatherData.fold((error) async {
       try {
-        final localData =
-            await weatherLocalDataSource.getLastWeeklyWeather(position);
+        final localData = await weatherLocalDataSource
+            .getLastWeeklyWeather(weeklyWeatherApiRouteData.position);
         if (localData == null) {
           return dartz.Left(
-            error is WeatherAppException ? error : WeatherAppException(),
+            error,
           );
         }
         return dartz.Right(localData);
@@ -126,6 +111,15 @@ class WeatherRepositoryImpl extends WeatherRepository {
         );
         return dartz.Left(WeatherAppException());
       }
-    }
+    }, (data) async {
+      await weatherLocalDataSource.cacheWeeklyWeather(
+        PositionCoordinates(
+          latitude: weeklyWeatherApiRouteData.position.latitude,
+          longitude: weeklyWeatherApiRouteData.position.longitude,
+        ),
+        data,
+      );
+      return dartz.Right(data);
+    });
   }
 }
