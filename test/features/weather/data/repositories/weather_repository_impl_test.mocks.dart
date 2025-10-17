@@ -3,10 +3,12 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
+import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:weather_app/weather_app.dart' as _i2;
+import 'package:mockito/src/dummies.dart' as _i5;
+import 'package:weather_app/weather_app.dart' as _i3;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -22,9 +24,8 @@ import 'package:weather_app/weather_app.dart' as _i2;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeCurrentWeatherData_0 extends _i1.SmartFake
-    implements _i2.CurrentWeatherData {
-  _FakeCurrentWeatherData_0(
+class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
+  _FakeEither_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -33,9 +34,9 @@ class _FakeCurrentWeatherData_0 extends _i1.SmartFake
         );
 }
 
-class _FakeWeeklyWeatherData_1 extends _i1.SmartFake
-    implements _i2.WeeklyWeatherData {
-  _FakeWeeklyWeatherData_1(
+class _FakePositionCoordinates_1 extends _i1.SmartFake
+    implements _i3.PositionCoordinates {
+  _FakePositionCoordinates_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -48,78 +49,89 @@ class _FakeWeeklyWeatherData_1 extends _i1.SmartFake
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockWeatherRemoteDataSource extends _i1.Mock
-    implements _i2.WeatherRemoteDataSource {
+    implements _i3.WeatherRemoteDataSource {
   MockWeatherRemoteDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<_i2.CurrentWeatherData> getCurrentWeatherData(
-          _i2.PositionCoordinates? position) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getCurrentWeatherData,
-          [position],
-        ),
-        returnValue:
-            _i3.Future<_i2.CurrentWeatherData>.value(_FakeCurrentWeatherData_0(
-          this,
-          Invocation.method(
-            #getCurrentWeatherData,
-            [position],
-          ),
-        )),
-      ) as _i3.Future<_i2.CurrentWeatherData>);
+  _i4.Future<_i2.Either<_i3.WeatherAppException, _i3.CurrentWeatherData>>
+      getCurrentWeatherData(_i3.CurrentWeatherApiRouteData? position) =>
+          (super.noSuchMethod(
+            Invocation.method(
+              #getCurrentWeatherData,
+              [position],
+            ),
+            returnValue: _i4.Future<
+                    _i2.Either<_i3.WeatherAppException,
+                        _i3.CurrentWeatherData>>.value(
+                _FakeEither_0<_i3.WeatherAppException, _i3.CurrentWeatherData>(
+              this,
+              Invocation.method(
+                #getCurrentWeatherData,
+                [position],
+              ),
+            )),
+          ) as _i4.Future<
+              _i2.Either<_i3.WeatherAppException, _i3.CurrentWeatherData>>);
 
   @override
-  _i3.Future<_i2.CurrentWeatherData> getCityWeatherData(String? cityName) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getCityWeatherData,
-          [cityName],
-        ),
-        returnValue:
-            _i3.Future<_i2.CurrentWeatherData>.value(_FakeCurrentWeatherData_0(
-          this,
-          Invocation.method(
-            #getCityWeatherData,
-            [cityName],
-          ),
-        )),
-      ) as _i3.Future<_i2.CurrentWeatherData>);
+  _i4.Future<_i2.Either<_i3.WeatherAppException, _i3.CurrentWeatherData>>
+      getCityWeatherData(
+              _i3.CityWeatherApiRouteData? cityWeatherApiRouteData) =>
+          (super.noSuchMethod(
+            Invocation.method(
+              #getCityWeatherData,
+              [cityWeatherApiRouteData],
+            ),
+            returnValue: _i4.Future<
+                    _i2.Either<_i3.WeatherAppException,
+                        _i3.CurrentWeatherData>>.value(
+                _FakeEither_0<_i3.WeatherAppException, _i3.CurrentWeatherData>(
+              this,
+              Invocation.method(
+                #getCityWeatherData,
+                [cityWeatherApiRouteData],
+              ),
+            )),
+          ) as _i4.Future<
+              _i2.Either<_i3.WeatherAppException, _i3.CurrentWeatherData>>);
 
   @override
-  _i3.Future<_i2.WeeklyWeatherData> getWeeklyWeather(
-          _i2.PositionCoordinates? position) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getWeeklyWeather,
-          [position],
-        ),
-        returnValue:
-            _i3.Future<_i2.WeeklyWeatherData>.value(_FakeWeeklyWeatherData_1(
-          this,
-          Invocation.method(
-            #getWeeklyWeather,
-            [position],
-          ),
-        )),
-      ) as _i3.Future<_i2.WeeklyWeatherData>);
+  _i4.Future<_i2.Either<_i3.WeatherAppException, _i3.WeeklyWeatherData>>
+      getWeeklyWeather(_i3.WeeklyWeatherApiRouteData? position) =>
+          (super.noSuchMethod(
+            Invocation.method(
+              #getWeeklyWeather,
+              [position],
+            ),
+            returnValue: _i4.Future<
+                    _i2.Either<_i3.WeatherAppException,
+                        _i3.WeeklyWeatherData>>.value(
+                _FakeEither_0<_i3.WeatherAppException, _i3.WeeklyWeatherData>(
+              this,
+              Invocation.method(
+                #getWeeklyWeather,
+                [position],
+              ),
+            )),
+          ) as _i4.Future<
+              _i2.Either<_i3.WeatherAppException, _i3.WeeklyWeatherData>>);
 }
 
 /// A class which mocks [WeatherLocalDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockWeatherLocalDataSource extends _i1.Mock
-    implements _i2.WeatherLocalDataSource {
+    implements _i3.WeatherLocalDataSource {
   MockWeatherLocalDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<void> cacheCurrentWeather(
-    _i2.PositionCoordinates? position,
-    _i2.CurrentWeatherData? weatherData,
+  _i4.Future<void> cacheCurrentWeather(
+    _i3.PositionCoordinates? position,
+    _i3.CurrentWeatherData? weatherData,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -129,14 +141,14 @@ class MockWeatherLocalDataSource extends _i1.Mock
             weatherData,
           ],
         ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 
   @override
-  _i3.Future<void> cacheCityWeather(
+  _i4.Future<void> cacheCityWeather(
     String? cityName,
-    _i2.CurrentWeatherData? weatherData,
+    _i3.CurrentWeatherData? weatherData,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -146,14 +158,14 @@ class MockWeatherLocalDataSource extends _i1.Mock
             weatherData,
           ],
         ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 
   @override
-  _i3.Future<void> cacheWeeklyWeather(
-    _i2.PositionCoordinates? position,
-    _i2.WeeklyWeatherData? weatherData,
+  _i4.Future<void> cacheWeeklyWeather(
+    _i3.PositionCoordinates? position,
+    _i3.WeeklyWeatherData? weatherData,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -163,54 +175,180 @@ class MockWeatherLocalDataSource extends _i1.Mock
             weatherData,
           ],
         ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 
   @override
-  _i3.Future<_i2.CurrentWeatherData?> getLastCurrentWeather(
-          _i2.PositionCoordinates? position) =>
+  _i4.Future<_i3.CurrentWeatherData?> getLastCurrentWeather(
+          _i3.PositionCoordinates? position) =>
       (super.noSuchMethod(
         Invocation.method(
           #getLastCurrentWeather,
           [position],
         ),
-        returnValue: _i3.Future<_i2.CurrentWeatherData?>.value(),
-      ) as _i3.Future<_i2.CurrentWeatherData?>);
+        returnValue: _i4.Future<_i3.CurrentWeatherData?>.value(),
+      ) as _i4.Future<_i3.CurrentWeatherData?>);
 
   @override
-  _i3.Future<_i2.CurrentWeatherData?> getLastCityWeather(String? cityName) =>
+  _i4.Future<_i3.CurrentWeatherData?> getLastCityWeather(String? cityName) =>
       (super.noSuchMethod(
         Invocation.method(
           #getLastCityWeather,
           [cityName],
         ),
-        returnValue: _i3.Future<_i2.CurrentWeatherData?>.value(),
-      ) as _i3.Future<_i2.CurrentWeatherData?>);
+        returnValue: _i4.Future<_i3.CurrentWeatherData?>.value(),
+      ) as _i4.Future<_i3.CurrentWeatherData?>);
 
   @override
-  _i3.Future<_i2.WeeklyWeatherData?> getLastWeeklyWeather(
-          _i2.PositionCoordinates? position) =>
+  _i4.Future<_i3.WeeklyWeatherData?> getLastWeeklyWeather(
+          _i3.PositionCoordinates? position) =>
       (super.noSuchMethod(
         Invocation.method(
           #getLastWeeklyWeather,
           [position],
         ),
-        returnValue: _i3.Future<_i2.WeeklyWeatherData?>.value(),
-      ) as _i3.Future<_i2.WeeklyWeatherData?>);
+        returnValue: _i4.Future<_i3.WeeklyWeatherData?>.value(),
+      ) as _i4.Future<_i3.WeeklyWeatherData?>);
 }
 
 /// A class which mocks [NetworkInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkInfo extends _i1.Mock implements _i2.NetworkInfo {
+class MockNetworkInfo extends _i1.Mock implements _i3.NetworkInfo {
   MockNetworkInfo() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<bool> get isConnected => (super.noSuchMethod(
+  _i4.Future<bool> get isConnected => (super.noSuchMethod(
         Invocation.getter(#isConnected),
-        returnValue: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+}
+
+/// A class which mocks [CurrentWeatherApiRouteData].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockCurrentWeatherApiRouteData extends _i1.Mock
+    implements _i3.CurrentWeatherApiRouteData {
+  MockCurrentWeatherApiRouteData() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  double get latitude => (super.noSuchMethod(
+        Invocation.getter(#latitude),
+        returnValue: 0.0,
+      ) as double);
+
+  @override
+  double get longitude => (super.noSuchMethod(
+        Invocation.getter(#longitude),
+        returnValue: 0.0,
+      ) as double);
+
+  @override
+  bool get doSaveToCache => (super.noSuchMethod(
+        Invocation.getter(#doSaveToCache),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  String get path => (super.noSuchMethod(
+        Invocation.getter(#path),
+        returnValue: _i5.dummyValue<String>(
+          this,
+          Invocation.getter(#path),
+        ),
+      ) as String);
+
+  @override
+  String get baseApiPath => (super.noSuchMethod(
+        Invocation.getter(#baseApiPath),
+        returnValue: _i5.dummyValue<String>(
+          this,
+          Invocation.getter(#baseApiPath),
+        ),
+      ) as String);
+}
+
+/// A class which mocks [CityWeatherApiRouteData].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockCityWeatherApiRouteData extends _i1.Mock
+    implements _i3.CityWeatherApiRouteData {
+  MockCityWeatherApiRouteData() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  String get cityName => (super.noSuchMethod(
+        Invocation.getter(#cityName),
+        returnValue: _i5.dummyValue<String>(
+          this,
+          Invocation.getter(#cityName),
+        ),
+      ) as String);
+
+  @override
+  bool get doSaveToCache => (super.noSuchMethod(
+        Invocation.getter(#doSaveToCache),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  String get path => (super.noSuchMethod(
+        Invocation.getter(#path),
+        returnValue: _i5.dummyValue<String>(
+          this,
+          Invocation.getter(#path),
+        ),
+      ) as String);
+
+  @override
+  String get baseApiPath => (super.noSuchMethod(
+        Invocation.getter(#baseApiPath),
+        returnValue: _i5.dummyValue<String>(
+          this,
+          Invocation.getter(#baseApiPath),
+        ),
+      ) as String);
+}
+
+/// A class which mocks [WeeklyWeatherApiRouteData].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockWeeklyWeatherApiRouteData extends _i1.Mock
+    implements _i3.WeeklyWeatherApiRouteData {
+  MockWeeklyWeatherApiRouteData() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.PositionCoordinates get position => (super.noSuchMethod(
+        Invocation.getter(#position),
+        returnValue: _FakePositionCoordinates_1(
+          this,
+          Invocation.getter(#position),
+        ),
+      ) as _i3.PositionCoordinates);
+
+  @override
+  String get baseApiPath => (super.noSuchMethod(
+        Invocation.getter(#baseApiPath),
+        returnValue: _i5.dummyValue<String>(
+          this,
+          Invocation.getter(#baseApiPath),
+        ),
+      ) as String);
+
+  @override
+  String get path => (super.noSuchMethod(
+        Invocation.getter(#path),
+        returnValue: _i5.dummyValue<String>(
+          this,
+          Invocation.getter(#path),
+        ),
+      ) as String);
 }

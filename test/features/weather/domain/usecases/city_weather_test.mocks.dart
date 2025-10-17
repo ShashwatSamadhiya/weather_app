@@ -44,14 +44,11 @@ class MockWeatherRepository extends _i1.Mock implements _i3.WeatherRepository {
   @override
   _i4.Future<_i2.Either<_i3.WeatherAppException, _i3.CurrentWeatherData>>
       getCurrentWeatherData(
-    _i3.PositionCoordinates? position, {
-    bool? doSaveToCache = true,
-  }) =>
+              _i3.CurrentWeatherApiRouteData? currentWeatherApiRouteData) =>
           (super.noSuchMethod(
             Invocation.method(
               #getCurrentWeatherData,
-              [position],
-              {#doSaveToCache: doSaveToCache},
+              [currentWeatherApiRouteData],
             ),
             returnValue: _i4.Future<
                     _i2.Either<_i3.WeatherAppException,
@@ -60,8 +57,7 @@ class MockWeatherRepository extends _i1.Mock implements _i3.WeatherRepository {
               this,
               Invocation.method(
                 #getCurrentWeatherData,
-                [position],
-                {#doSaveToCache: doSaveToCache},
+                [currentWeatherApiRouteData],
               ),
             )),
           ) as _i4.Future<
@@ -70,14 +66,11 @@ class MockWeatherRepository extends _i1.Mock implements _i3.WeatherRepository {
   @override
   _i4.Future<_i2.Either<_i3.WeatherAppException, _i3.CurrentWeatherData>>
       getCityWeatherData(
-    String? cityName, {
-    bool? doSaveToCache = true,
-  }) =>
+              _i3.CityWeatherApiRouteData? cityWeatherApiRouteData) =>
           (super.noSuchMethod(
             Invocation.method(
               #getCityWeatherData,
-              [cityName],
-              {#doSaveToCache: doSaveToCache},
+              [cityWeatherApiRouteData],
             ),
             returnValue: _i4.Future<
                     _i2.Either<_i3.WeatherAppException,
@@ -86,8 +79,7 @@ class MockWeatherRepository extends _i1.Mock implements _i3.WeatherRepository {
               this,
               Invocation.method(
                 #getCityWeatherData,
-                [cityName],
-                {#doSaveToCache: doSaveToCache},
+                [cityWeatherApiRouteData],
               ),
             )),
           ) as _i4.Future<
@@ -96,14 +88,11 @@ class MockWeatherRepository extends _i1.Mock implements _i3.WeatherRepository {
   @override
   _i4.Future<_i2.Either<_i3.WeatherAppException, _i3.WeeklyWeatherData>>
       getWeeklyWeather(
-    _i3.PositionCoordinates? position, {
-    bool? doSaveToCache = true,
-  }) =>
+              _i3.WeeklyWeatherApiRouteData? weeklyWeatherApiRouteData) =>
           (super.noSuchMethod(
             Invocation.method(
               #getWeeklyWeather,
-              [position],
-              {#doSaveToCache: doSaveToCache},
+              [weeklyWeatherApiRouteData],
             ),
             returnValue: _i4.Future<
                     _i2.Either<_i3.WeatherAppException,
@@ -112,8 +101,7 @@ class MockWeatherRepository extends _i1.Mock implements _i3.WeatherRepository {
               this,
               Invocation.method(
                 #getWeeklyWeather,
-                [position],
-                {#doSaveToCache: doSaveToCache},
+                [weeklyWeatherApiRouteData],
               ),
             )),
           ) as _i4.Future<

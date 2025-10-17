@@ -64,7 +64,7 @@ class MockGetCurrentWeatherData extends _i1.Mock
 
   @override
   _i4.Future<_i3.Either<_i2.WeatherAppException, _i2.CurrentWeatherData>> call(
-          _i2.WeatherParams? params) =>
+          _i2.CurrentWeatherApiRouteData? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
@@ -103,7 +103,7 @@ class MockGetWeeklyWeather extends _i1.Mock implements _i2.GetWeeklyWeather {
 
   @override
   _i4.Future<_i3.Either<_i2.WeatherAppException, _i2.WeeklyWeatherData>> call(
-          _i2.WeatherParams? params) =>
+          _i2.WeeklyWeatherApiRouteData? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
@@ -142,7 +142,7 @@ class MockGetCityWeather extends _i1.Mock implements _i2.GetCityWeather {
 
   @override
   _i4.Future<_i3.Either<_i2.WeatherAppException, _i2.CurrentWeatherData>> call(
-          String? params) =>
+          _i2.CityWeatherApiRouteData? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,

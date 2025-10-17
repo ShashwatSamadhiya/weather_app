@@ -11,41 +11,40 @@ import 'city_weather_test.mocks.dart';
 
 @GenerateMocks([WeatherRepository])
 void main() {
-  late GetCityWeather useCase;
-  late MockWeatherRepository mockRepository;
+  late GetCityWeather usecase;
+  late MockWeatherRepository mockWeatherRepository;
 
   setUp(() {
-    mockRepository = MockWeatherRepository();
-    useCase = GetCityWeather(mockRepository);
+    mockWeatherRepository = MockWeatherRepository();
+    usecase = GetCityWeather(mockWeatherRepository);
   });
 
-  final cityName = 'Mumbai';
-
-  final currentWeather = CurrentWeatherData.fromJson(
+  final routeData = CityWeatherApiRouteData(cityName: 'London');
+  final weatherData = CurrentWeatherData.fromJson(
       jsonDecode(modelReaderHelper('current_weather_data.json')));
+  final exception = WeatherAppException(errorMessage: 'Failed to fetch');
 
-  test('should get current weather from repository', () async {
-    // arrange
-    when(mockRepository.getCityWeatherData(cityName))
-        .thenAnswer((_) async => dartz.Right(currentWeather));
+  test('should return Right(CurrentWeatherData) when repository succeeds',
+      () async {
+    when(mockWeatherRepository.getCityWeatherData(routeData))
+        .thenAnswer((_) async => dartz.Right(weatherData));
 
-    final result = await useCase(cityName);
+    final result = await usecase(routeData);
 
-    expect(result, dartz.Right(currentWeather));
-    verify(mockRepository.getCityWeatherData(cityName)).called(1);
-    verifyNoMoreInteractions(mockRepository);
+    expect(result, dartz.Right(weatherData));
+    verify(mockWeatherRepository.getCityWeatherData(routeData)).called(1);
+    verifyNoMoreInteractions(mockWeatherRepository);
   });
 
-  test('should return failure when repository fails', () async {
-    final exception = WeatherAppException();
-
-    when(mockRepository.getCityWeatherData(cityName))
+  test('should return Left(WeatherAppException) when repository fails',
+      () async {
+    when(mockWeatherRepository.getCityWeatherData(routeData))
         .thenAnswer((_) async => dartz.Left(exception));
 
-    final result = await useCase(cityName);
+    final result = await usecase(routeData);
 
     expect(result, dartz.Left(exception));
-    verify(mockRepository.getCityWeatherData(cityName)).called(1);
-    verifyNoMoreInteractions(mockRepository);
+    verify(mockWeatherRepository.getCityWeatherData(routeData)).called(1);
+    verifyNoMoreInteractions(mockWeatherRepository);
   });
 }

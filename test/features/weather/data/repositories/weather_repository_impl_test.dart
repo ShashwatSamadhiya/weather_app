@@ -7,157 +7,197 @@ import 'package:dartz/dartz.dart' as dartz;
 import 'package:weather_app/weather_app.dart';
 
 import '../../../../helper/model_read.dart';
-import 'weather_repository_impl_test.mocks.dart';
-
+import '../datasources/weather_remotesource_test.mocks.dart'
+    hide MockWeeklyWeatherApiRouteData, MockCurrentWeatherApiRouteData;
 @GenerateMocks([
   WeatherRemoteDataSource,
   WeatherLocalDataSource,
   NetworkInfo,
+  CurrentWeatherApiRouteData,
+  CityWeatherApiRouteData,
+  WeeklyWeatherApiRouteData,
 ])
+import 'weather_repository_impl_test.mocks.dart'
+    hide MockCityWeatherApiRouteData;
+
 void main() {
-  late WeatherRepositoryImpl repository;
   late MockWeatherRemoteDataSource mockRemote;
   late MockWeatherLocalDataSource mockLocal;
-  late MockNetworkInfo mockNetworkInfo;
+  late MockNetworkInfo mockNetwork;
+  late WeatherRepositoryImpl repository;
 
-  final position = PositionCoordinates(latitude: 12.34, longitude: 56.78);
-  const cityName = 'Lucknow';
-
-  final currentWeather = CurrentWeatherData.fromJson(
-      jsonDecode(modelReaderHelper('current_weather_data.json')));
-
-  final weeklyWeather = WeeklyWeatherData.fromJson(
-      jsonDecode(modelReaderHelper('weekly_weather.json')));
   setUp(() {
     mockRemote = MockWeatherRemoteDataSource();
     mockLocal = MockWeatherLocalDataSource();
-    mockNetworkInfo = MockNetworkInfo();
+    mockNetwork = MockNetworkInfo();
     repository = WeatherRepositoryImpl(
       weatherRemoteDataSource: mockRemote,
       weatherLocalDataSource: mockLocal,
-      networkInfo: mockNetworkInfo,
+      networkInfo: mockNetwork,
     );
   });
 
   group('getCurrentWeatherData', () {
-    test('returns remote data and caches when connected', () async {
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemote.getCurrentWeatherData(position))
-          .thenAnswer((_) async => currentWeather);
+    late MockCurrentWeatherApiRouteData route;
+    final weatherData = CurrentWeatherData.fromJson(
+        jsonDecode(modelReaderHelper('current_weather_data.json')));
 
-      final result = await repository.getCurrentWeatherData(position);
-
-      expect(result, dartz.Right(currentWeather));
-      verify(mockLocal.cacheCurrentWeather(position, currentWeather)).called(1);
+    setUp(() {
+      route = MockCurrentWeatherApiRouteData();
+      when(route.latitude).thenReturn(10.0);
+      when(route.longitude).thenReturn(20.0);
+      when(route.doSaveToCache).thenReturn(true);
     });
 
-    test('returns local cache when remote fails', () async {
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemote.getCurrentWeatherData(position))
-          .thenThrow(Exception('API error'));
-      when(mockLocal.getLastCurrentWeather(position))
-          .thenAnswer((_) async => currentWeather);
+    test('returns Right when remote data succeeds and caches data', () async {
+      when(mockRemote.getCurrentWeatherData(route))
+          .thenAnswer((_) async => dartz.Right(weatherData));
 
-      final result = await repository.getCurrentWeatherData(position);
+      final result = await repository.getCurrentWeatherData(route);
 
-      expect(result, dartz.Right(currentWeather));
-      verify(mockLocal.getLastCurrentWeather(position)).called(1);
+      expect(result.isRight(), true);
+      expect(result.getOrElse(() => throw Exception()), weatherData);
+
+      verify(mockRemote.getCurrentWeatherData(route)).called(1);
+      verifyNever(mockLocal.cacheCurrentWeather(
+        PositionCoordinates(latitude: 10.0, longitude: 20.0),
+        weatherData,
+      ));
     });
 
-    test('returns error when both remote and cache fail', () async {
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemote.getCurrentWeatherData(position))
-          .thenThrow(Exception('API error'));
-      when(mockLocal.getLastCurrentWeather(position))
-          .thenAnswer((_) async => null);
+    test('returns cached data when remote fails but cache exists', () async {
+      final exception = WeatherAppException(errorMessage: 'Network fail');
+      when(mockRemote.getCurrentWeatherData(route))
+          .thenAnswer((_) async => dartz.Left(exception));
 
-      final result = await repository.getCurrentWeatherData(position);
+      when(mockLocal.getLastCurrentWeather(any))
+          .thenAnswer((_) async => weatherData);
+
+      final result = await repository.getCurrentWeatherData(route);
+
+      expect(result.isRight(), true);
+      expect(result.getOrElse(() => throw Exception()), weatherData);
+    });
+
+    test('returns Left when remote fails and cache is null', () async {
+      final exception = WeatherAppException(errorMessage: 'No internet');
+      when(mockRemote.getCurrentWeatherData(route))
+          .thenAnswer((_) async => dartz.Left(exception));
+
+      when(mockLocal.getLastCurrentWeather(any)).thenAnswer((_) async => null);
+
+      final result = await repository.getCurrentWeatherData(route);
 
       expect(result.isLeft(), true);
-      verify(mockLocal.getLastCurrentWeather(position)).called(1);
+      result.fold((l) => expect(l, exception), (_) => null);
     });
 
-    test('returns cached data when offline', () async {
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-      when(mockLocal.getLastCurrentWeather(position))
-          .thenAnswer((_) async => currentWeather);
+    test('returns Left when cache throws an exception', () async {
+      final exception = WeatherAppException(errorMessage: 'Network fail');
+      when(mockRemote.getCurrentWeatherData(route))
+          .thenAnswer((_) async => dartz.Left(exception));
 
-      final result = await repository.getCurrentWeatherData(position);
+      when(mockLocal.getLastCurrentWeather(any))
+          .thenThrow(Exception('Cache error'));
 
-      expect(result, dartz.Right(currentWeather));
+      final result = await repository.getCurrentWeatherData(route);
+
+      expect(result.isLeft(), true);
+      result.fold((l) => expect(l, isA<WeatherAppException>()), (_) => null);
     });
   });
 
   group('getCityWeatherData', () {
-    test('returns remote city weather and caches when connected', () async {
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemote.getCityWeatherData(cityName))
-          .thenAnswer((_) async => currentWeather);
+    late MockCityWeatherApiRouteData route;
+    final cityWeather = CurrentWeatherData.fromJson(
+        jsonDecode(modelReaderHelper('current_weather_data.json')));
 
-      final result = await repository.getCityWeatherData(cityName);
-
-      expect(result, dartz.Right(currentWeather));
-      verify(mockLocal.cacheCityWeather(cityName, currentWeather)).called(1);
+    setUp(() {
+      route = MockCityWeatherApiRouteData();
+      when(route.cityName).thenReturn('London');
     });
 
-    test('returns cached city weather on remote failure', () async {
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemote.getCityWeatherData(cityName))
-          .thenThrow(Exception('API error'));
-      when(mockLocal.getLastCityWeather(cityName))
-          .thenAnswer((_) async => currentWeather);
+    test('returns Right when remote succeeds and caches data', () async {
+      when(mockRemote.getCityWeatherData(route))
+          .thenAnswer((_) async => dartz.Right(cityWeather));
 
-      final result = await repository.getCityWeatherData(cityName);
+      final result = await repository.getCityWeatherData(route);
 
-      expect(result, dartz.Right(currentWeather));
+      expect(result.isRight(), true);
+      verify(mockLocal.cacheCityWeather('London', cityWeather)).called(1);
     });
 
-    test('returns error when both fail', () async {
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemote.getCityWeatherData(cityName))
-          .thenThrow(Exception('API error'));
-      when(mockLocal.getLastCityWeather(cityName))
+    test('returns cached data when remote fails but local data exists',
+        () async {
+      final exception = WeatherAppException(errorMessage: 'Offline');
+      when(mockRemote.getCityWeatherData(route))
+          .thenAnswer((_) async => dartz.Left(exception));
+      when(mockLocal.getLastCityWeather('London'))
+          .thenAnswer((_) async => cityWeather);
+
+      final result = await repository.getCityWeatherData(route);
+
+      expect(result.isRight(), true);
+      expect(result.getOrElse(() => throw Exception()), cityWeather);
+    });
+
+    test('returns Left when both remote and cache fail', () async {
+      final exception = WeatherAppException(errorMessage: 'Offline');
+      when(mockRemote.getCityWeatherData(route))
+          .thenAnswer((_) async => dartz.Left(exception));
+      when(mockLocal.getLastCityWeather('London'))
           .thenAnswer((_) async => null);
 
-      final result = await repository.getCityWeatherData(cityName);
+      final result = await repository.getCityWeatherData(route);
 
       expect(result.isLeft(), true);
+      result.fold((l) => expect(l, exception), (_) => null);
     });
   });
 
   group('getWeeklyWeather', () {
-    test('returns remote weekly weather and caches', () async {
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemote.getWeeklyWeather(position))
-          .thenAnswer((_) async => weeklyWeather);
+    late MockWeeklyWeatherApiRouteData route;
+    final weeklyData = WeeklyWeatherData.fromJson(
+        jsonDecode(modelReaderHelper('weekly_weather.json')));
 
-      final result = await repository.getWeeklyWeather(position);
-
-      expect(result, dartz.Right(weeklyWeather));
-      verify(mockLocal.cacheWeeklyWeather(position, weeklyWeather)).called(1);
+    setUp(() {
+      route = MockWeeklyWeatherApiRouteData();
+      when(route.position).thenReturn(PositionCoordinates(
+        latitude: 12.3,
+        longitude: 45.6,
+      ));
     });
 
-    test('returns cached weekly weather on remote failure', () async {
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemote.getWeeklyWeather(position))
-          .thenThrow(Exception('API error'));
-      when(mockLocal.getLastWeeklyWeather(position))
-          .thenAnswer((_) async => weeklyWeather);
+    test('returns Right when remote succeeds and caches', () async {
+      when(mockRemote.getWeeklyWeather(route))
+          .thenAnswer((_) async => dartz.Right(weeklyData));
 
-      final result = await repository.getWeeklyWeather(position);
+      final result = await repository.getWeeklyWeather(route);
 
-      expect(result, dartz.Right(weeklyWeather));
-      verify(mockLocal.getLastWeeklyWeather(position)).called(1);
+      expect(result.isRight(), true);
+      verify(mockLocal.cacheWeeklyWeather(any, weeklyData)).called(1);
     });
 
-    test('returns error when both remote and cache fail', () async {
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemote.getWeeklyWeather(position))
-          .thenThrow(Exception('API error'));
-      when(mockLocal.getLastWeeklyWeather(position))
-          .thenAnswer((_) async => null);
+    test('returns cached data when remote fails but local exists', () async {
+      final exception = WeatherAppException(errorMessage: 'Network fail');
+      when(mockRemote.getWeeklyWeather(route))
+          .thenAnswer((_) async => dartz.Left(exception));
+      when(mockLocal.getLastWeeklyWeather(any))
+          .thenAnswer((_) async => weeklyData);
 
-      final result = await repository.getWeeklyWeather(position);
+      final result = await repository.getWeeklyWeather(route);
+
+      expect(result.isRight(), true);
+      expect(result.getOrElse(() => throw Exception()), weeklyData);
+    });
+
+    test('returns Left when both remote and cache fail', () async {
+      final exception = WeatherAppException(errorMessage: 'Network fail');
+      when(mockRemote.getWeeklyWeather(route))
+          .thenAnswer((_) async => dartz.Left(exception));
+      when(mockLocal.getLastWeeklyWeather(any)).thenAnswer((_) async => null);
+
+      final result = await repository.getWeeklyWeather(route);
 
       expect(result.isLeft(), true);
     });

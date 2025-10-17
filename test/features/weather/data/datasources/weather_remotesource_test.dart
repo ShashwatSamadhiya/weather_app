@@ -1,95 +1,105 @@
+import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:http/http.dart' as http;
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:weather_app/weather_app.dart';
 
 import '../../../../helper/model_read.dart';
 import 'weather_remotesource_test.mocks.dart';
 
-@GenerateMocks([http.Client, NetworkInfo])
+@GenerateMocks([
+  ApiClient,
+  WeatherAppApiHelper,
+  CityWeatherApiRouteData,
+  CurrentWeatherApiRouteData,
+  WeeklyWeatherApiRouteData
+])
 void main() {
-  late WeatherRemoteDataSourceImpl dataSource;
-  late MockClient mockHttpClient;
-  late MockNetworkInfo mockNetworkInfo;
+  late MockApiClient mockApiClient;
+  late MockWeatherAppApiHelper mockWeatherAppApiHelper;
+  late WeatherRemoteDataSourceImpl remoteDataSource;
 
   setUp(() {
-    mockHttpClient = MockClient();
-    mockNetworkInfo = MockNetworkInfo();
-    dataSource = WeatherRemoteDataSourceImpl(
-      httpClient: mockHttpClient,
-      networkInfo: mockNetworkInfo,
+    mockApiClient = MockApiClient();
+    mockWeatherAppApiHelper = MockWeatherAppApiHelper();
+    remoteDataSource = WeatherRemoteDataSourceImpl(
+      apiClient: mockApiClient,
+      weatherAppApiHelper: mockWeatherAppApiHelper,
     );
   });
 
-  group('getCurrentWeatherData', () {
-    final position = PositionCoordinates(latitude: 10.0, longitude: 20.0);
-    final tJsonResponse = modelReaderHelper('current_weather_data.json');
-    // mock json body
+  group('WeatherRemoteDataSourceImpl', () {
+    final currentWeatherData = CurrentWeatherData.fromJson(
+        jsonDecode(modelReaderHelper('current_weather_data.json')));
 
-    test('should throw NetworkException when no internet', () async {
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+    final weeklyWeatherData = WeeklyWeatherData.fromJson(
+        jsonDecode(modelReaderHelper('weekly_weather.json')));
 
-      final call = dataSource.getCurrentWeatherData;
+    test('getCurrentWeatherData returns data when successful', () async {
+      when(mockWeatherAppApiHelper.ensure<CurrentWeatherData>(
+        any,
+        parser: anyNamed('parser'),
+      )).thenAnswer((_) async => dartz.Right(currentWeatherData));
 
-      expect(() => call(position), throwsA(isA<NetworkException>()));
+      final result = await remoteDataSource
+          .getCurrentWeatherData(MockCurrentWeatherApiRouteData());
+
+      expect(result.isRight(), true);
+      expect(result.getOrElse(() => throw Exception()), currentWeatherData);
+      verify(mockWeatherAppApiHelper.ensure<CurrentWeatherData>(
+        any,
+        parser: anyNamed('parser'),
+      )).called(1);
     });
 
-    test('should return CurrentWeatherData when response code is 200',
-        () async {
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockHttpClient.get(any, headers: anyNamed('headers'))).thenAnswer(
-        (_) async => http.Response(tJsonResponse, 200),
-      );
+    test('getCityWeatherData returns data when successful', () async {
+      final routeData = MockCityWeatherApiRouteData();
+      when(mockWeatherAppApiHelper.ensure<CurrentWeatherData>(
+        any,
+        parser: anyNamed('parser'),
+      )).thenAnswer((_) async => dartz.Right(currentWeatherData));
 
-      final result = await dataSource.getCurrentWeatherData(position);
+      final result = await remoteDataSource.getCityWeatherData(routeData);
 
-      expect(result, isA<CurrentWeatherData>());
+      expect(result.isRight(), true);
+      expect(result.getOrElse(() => throw Exception()), currentWeatherData);
+      verify(mockWeatherAppApiHelper.ensure<CurrentWeatherData>(
+        any,
+        parser: anyNamed('parser'),
+      )).called(1);
     });
 
-    test('should throw ServerException when response code is not 200',
-        () async {
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockHttpClient.get(any, headers: anyNamed('headers'))).thenAnswer(
-        (_) async => http.Response('Something went wrong', 404),
-      );
+    test('getWeeklyWeather returns data when successful', () async {
+      final routeData = MockWeeklyWeatherApiRouteData();
+      when(mockWeatherAppApiHelper.ensure<WeeklyWeatherData>(
+        any,
+        parser: anyNamed('parser'),
+      )).thenAnswer((_) async => dartz.Right(weeklyWeatherData));
 
-      expect(
-        () => dataSource.getCurrentWeatherData(position),
-        throwsA(isA<ServerException>()),
-      );
+      final result = await remoteDataSource.getWeeklyWeather(routeData);
+
+      expect(result.isRight(), true);
+      expect(result.getOrElse(() => throw Exception()), weeklyWeatherData);
+      verify(mockWeatherAppApiHelper.ensure<WeeklyWeatherData>(
+        any,
+        parser: anyNamed('parser'),
+      )).called(1);
     });
-  });
 
-  group('getCityWeatherData', () {
-    const cityName = 'London';
-    final tJsonResponse = modelReaderHelper('current_weather_data.json');
+    test('returns Left when WeatherAppApiHelper fails', () async {
+      final routeData = MockCurrentWeatherApiRouteData();
+      final exception = WeatherAppException(errorMessage: 'Error');
 
-    test('should return CurrentWeatherData on success', () async {
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockHttpClient.get(any)).thenAnswer(
-        (_) async => http.Response(tJsonResponse, 200),
-      );
+      when(mockWeatherAppApiHelper.ensure<CurrentWeatherData>(
+        any,
+        parser: anyNamed('parser'),
+      )).thenAnswer((_) async => dartz.Left(exception));
 
-      final result = await dataSource.getCityWeatherData(cityName);
+      final result = await remoteDataSource.getCurrentWeatherData(routeData);
 
-      expect(result, isA<CurrentWeatherData>());
-    });
-  });
-
-  group('getWeeklyWeather', () {
-    final position = PositionCoordinates(latitude: 12.0, longitude: 77.0);
-    final tJsonResponse = modelReaderHelper('weekly_weather.json');
-
-    test('should return WeeklyWeatherData on success', () async {
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockHttpClient.get(any, headers: anyNamed('headers'))).thenAnswer(
-        (_) async => http.Response(tJsonResponse, 200),
-      );
-
-      final result = await dataSource.getWeeklyWeather(position);
-
-      expect(result, isA<WeeklyWeatherData>());
+      expect(result.isLeft(), true);
+      result.fold((l) => expect(l, exception), (_) => null);
     });
   });
 }
