@@ -173,6 +173,12 @@ flutter build apk --dart-define=WEATHER_API_ACCESS_KEY=your_api_key --dart-defin
 flutter test
 ```
 
+7. **Run Integration Tests**
+
+```bash
+flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart --dart-define=WEATHER_API_ACCESS_KEY=<WEATHER_API_ACCESS_KEY> --dart-define=GOOGLE_MAPS_KEY=<GOOGLE_MAPS_KEY>
+```
+
 ---
 
 ## Architectural Decisions
